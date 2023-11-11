@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+
+  <div>
+    <p>
+    <h1>Factorizer</h1>
+    </p>
+    <p>please enter your variable values assuming the div ax^2+bx+c</p>
+    <input type="text" id="a" placeholder="a" name="a" />
+    <input type="text" id="b" placeholder="b" name="b" />
+    <input type="text" id="c" placeholder="c" name="c" />
+    <button id="submit" type="button">submit</button>
+  </div>
+  <div id="result"></div>
+  <div id="test"></div>
+  <script>
+    /*
+    // Lắng nghe sự kiện khi nút "Gửi" được nhấn
+    document.getElementById("submit").addEventListener("click", function () {
+      // Lấy giá trị từ các trường input
+      const a_var = document.getElementById("a").value;
+      const b_var = document.getElementById("b").value;
+      const c_var = document.getElementById("c").value;
+      // Tạo một đối tượng JSON từ các giá trị
+      const data = {
+        a: a_var,
+        b: b_var,
+        c: c_var
+      };
+
+      const resultDiv = document.getElementById("result");
+
+      // Sử dụng fetch để gửi POST request -> this is a function of JS not AJAX
+      fetch("http://hello:5000/factors/get/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json(); // Trả về dữ liệu JSON từ response
+          }
+          throw new Error("Some problem when send data.");
+        })
+        .then(data => {
+          // Hiển thị dữ liệu từ response trong phần tử kết quả
+          resultDiv.textContent = "Result: " + data["ket qua"];
+        })
+        .catch(error => {
+          // Hiển thị lỗi nếu có lỗi trong quá trình gửi request
+          resultDiv.textContent = "Fail: " + error.message;
+        });
+    });
+    */
+
+
+    $(document).ready(function () {
+      $("#submit").click(function () {
+        var a_var = document.getElementById("a").value;
+        var b_var = document.getElementById("b").value;
+        var c_var = document.getElementById("c").value;
+        // Tạo một đối tượng JSON từ các giá trị
+        var data = {
+          a: a_var,
+          b: b_var,
+          c: c_var
+        };
+
+        document.getElementById("test").innerHTML = "ketqua = " + data["a"] + "   asdsa   " + a_var;
+        const url = "/factors/get"
+        $.ajax({
+          url: url,
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          success: function (response) {
+            // Handle JSON data from the response
+            $("#result").text("Result: " + response["ket qua"]);
+          },
+          error: function (xhr, status, error) {
+            // Display an error message if there's an issue with the request
+            $("#result").text("Fail: " + error.message);
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>
