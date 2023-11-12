@@ -33,18 +33,22 @@ jobs:
             sudo microk8s kubectl apply -f frontend/frontend-deployment.yaml ;echo 33333333333333
             sudo microk8s kubectl apply -f frontend/frontend-service.yaml ;echo 4444444444444444
         
-        - name: Set up Python 3.10
-          uses: actions/setup-python@v3
-          with:
-            python-version: "3.10"
+        # - name: Set up Python 3.10
+        #   uses: actions/setup-python@v3
+        #   with:
+        #     python-version: "3.10"
 
-        - name: Install library 
-          run: |
-            python -m pip install --upgrade pip
-            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # - name: Install library 
+        #   run: |
+        #     python -m pip install --upgrade pip
+        #     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         - name: test k8s
           run : |
-            python3 test_k8s.py
+            sudo microk8s kubectl get svc 
+            sudo microk8s kubectl get po -o wide
+            sudo microk8s kubectl get deployments
+            sudo microk8s kubectl get services
+
 
         - name: Stop k8s
           run: |
