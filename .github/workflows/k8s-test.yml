@@ -55,7 +55,7 @@ jobs:
           run : |
             sudo microk8s kubectl get services
         
-        - run: kubectl describe pods 
+        - run: sudo microk8s kubectl describe pods 
 
         - run: docker ps
 
