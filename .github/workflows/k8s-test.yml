@@ -57,6 +57,10 @@ jobs:
         
         - run: kubectl describe pods 
 
+        - run: docker ps
+
+        - run: docker ps -a
+
 
         - name: Stop k8s
           run: |
