@@ -61,6 +61,8 @@ jobs:
 
         - run: docker ps -a
 
+        - run: docker images
+
 
         - name: Stop k8s
           run: |
