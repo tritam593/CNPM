@@ -15,8 +15,14 @@ jobs:
     steps:
         - uses: actions/checkout@v3
 
-        - run: sudo apt-get install -y conntrack
+        - run: |
+            curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \
+            && chmod +x docker-machine-driver-hyperkit \
+            && sudo mv docker-machine-driver-hyperkit /usr/local/bin/ \
+            && sudo chown root:wheel /usr/local/bin/docker-machine-driver-hyperkit \
+            && sudo chmod u+s /usr/local/bin/docker-machine-driver-hyperkit
 
+        - run: sudo snap install kubectl --classic
         - run: |
             curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
         - run: |
@@ -24,7 +30,7 @@ jobs:
             sudo install minikube /usr/local/bin/
         
 
-        - run: minikube start --vm-driver=none
+        - run: minikube start --vm-driver=hyperkit
 
         - name: Build docker
           run: |
