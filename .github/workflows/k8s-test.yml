@@ -14,12 +14,16 @@ jobs:
     continue-on-error: false
     steps:
         - uses: actions/checkout@v3
+
+        - run: sudo apt-get install -y conntrack
+
         - run: |
             curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
         - run: |
             sudo mkdir -p /usr/local/bin/
             sudo install minikube /usr/local/bin/
         
+
         - run: minikube start --vm-driver=none
 
         - name: Build docker
