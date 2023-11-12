@@ -29,11 +29,11 @@ jobs:
 
         - name: move container local to microk8s
           run: |
-            docker save frontend-flask > myimage.tar
-            microk8s ctr image import myimage.tar
-            docker save backend-flask > myimage.tar
-            microk8s ctr image import myimage.tar
-            microk8s ctr images ls
+            sudo docker save frontend-flask > myimage.tar
+            sudo microk8s ctr image import myimage.tar
+            sudo docker save backend-flask > myimage.tar
+            sudo microk8s ctr image import myimage.tar
+            sudo microk8s ctr images ls
 
         - name: Run k8s
           run: |
