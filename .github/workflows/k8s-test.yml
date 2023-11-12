@@ -14,11 +14,14 @@ jobs:
     continue-on-error: false
     steps:
         - uses: actions/checkout@v3
-        - run: sudo snap install microk8s --classic
         - run: |
-            sudo usermod -a -G microk8s runner 
-        - run: sudo microk8s status --wait-ready
-        - run: sudo microk8s kubectl config view
+            curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
+        - run: |
+            sudo mkdir -p /usr/local/bin/
+            sudo install minikube /usr/local/bin/
+        
+        - run: minikube start --vm-driver=none
+
         - name: Build docker
           run: |
             cd frontend;
@@ -28,10 +31,10 @@ jobs:
 
         - name: Run k8s
           run: |
-            sudo microk8s kubectl apply -f backend/backend-deployment.yaml ;echo 11111111111111
-            sudo microk8s kubectl apply -f backend/backend-service.yaml ;echo 22222222222
-            sudo microk8s kubectl apply -f frontend/frontend-deployment.yaml ;echo 33333333333333
-            sudo microk8s kubectl apply -f frontend/frontend-service.yaml ;echo 4444444444444444
+            sudo kubectl apply -f backend/backend-deployment.yaml ;echo 11111111111111
+            sudo kubectl apply -f backend/backend-service.yaml ;echo 22222222222
+            sudo kubectl apply -f frontend/frontend-deployment.yaml ;echo 33333333333333
+            sudo kubectl apply -f frontend/frontend-service.yaml ;echo 4444444444444444
         
         # - name: Set up Python 3.10
         #   uses: actions/setup-python@v3
@@ -44,18 +47,18 @@ jobs:
         #     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         - name: test k8s
           run : |
-            sudo microk8s kubectl get svc 
+            sudo kubectl get svc 
         - name: test pod
           run : |
-            sudo microk8s kubectl get po -o wide
+            sudo kubectl get po -o wide
         - name: test k8s
           run : |
-            sudo microk8s kubectl get deployments
+            sudo kubectl get deployments
         - name: test k8s
           run : |
-            sudo microk8s kubectl get services
+            sudo kubectl get services
         
-        - run: sudo microk8s kubectl describe pods 
+        - run: sudo kubectl describe pods 
 
         - run: docker ps
 
@@ -66,8 +69,8 @@ jobs:
 
         - name: Stop k8s
           run: |
-            sudo microk8s kubectl delete -f backend/backend-deployment.yaml 
-            sudo microk8s kubectl delete -f backend/backend-service.yaml 
-            sudo microk8s kubectl delete -f frontend/frontend-deployment.yaml 
-            sudo microk8s kubectl delete -f frontend/frontend-service.yaml 
+            sudo kubectl delete -f backend/backend-deployment.yaml 
+            sudo kubectl delete -f backend/backend-service.yaml 
+            sudo kubectl delete -f frontend/frontend-deployment.yaml 
+            sudo kubectl delete -f frontend/frontend-service.yaml 
       
