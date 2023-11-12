@@ -45,9 +45,17 @@ jobs:
         - name: test k8s
           run : |
             sudo microk8s kubectl get svc 
+        - name: test pod
+          run : |
             sudo microk8s kubectl get po -o wide
+        - name: test k8s
+          run : |
             sudo microk8s kubectl get deployments
+        - name: test k8s
+          run : |
             sudo microk8s kubectl get services
+        
+        - run: kubectl describe pods 
 
 
         - name: Stop k8s
