@@ -1,5 +1,5 @@
 # CNPM
 project for Software Engineering
 
-# This line just use to test github
-Hello World
+# Demo Django 
+Demo code in folder Project Django. Code runs terminal in 'cmd.txt'
