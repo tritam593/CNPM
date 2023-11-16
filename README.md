@@ -1,6 +1,8 @@
 # test-gitaction
 
 ![Docker build status](https://github.com/tritam593/se15.1/actions/workflows/docker-image.yml/badge.svg)
+![K8s build status](https://github.com/tritam593/se15.1/actions/workflows/k8s.yml/badge.svg)
+
 Clone the repo
 ```
 git clone https://github.com/tritam593/se15.1.git
