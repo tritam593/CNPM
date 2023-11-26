@@ -71,7 +71,7 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 	}
 
 	bookDetail, db := models.GetBookById(ID)
-	if updateBook.Name != ""{
+	if updateBook.Name != "" {
 		bookDetail.Name = updateBook.Name
 	}
 	if updateBook.Author != "" {
