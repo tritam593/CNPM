@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"test/e-commerce-test/pkg/controllers"
+	"test/e-commerce-test/pkg/consts"
 
 	"github.com/google/uuid"
 
@@ -88,13 +88,13 @@ func (o *Order) GetStatusLabel() string {
 	var statusLabel string
 
 	switch o.Status {
-	case controllers.OrderStatusPending:
+	case consts.OrderStatusPending:
 		statusLabel = "PENDING"
-	case controllers.OrderStatusDelivered:
+	case consts.OrderStatusDelivered:
 		statusLabel = "DELIVERED"
-	case controllers.OrderStatusReceived:
+	case consts.OrderStatusReceived:
 		statusLabel = "RECEIVED"
-	case controllers.OrderStatusCancelled:
+	case consts.OrderStatusCancelled:
 		statusLabel = "CANCELLED"
 	default:
 		statusLabel = "UNKNOWN"
@@ -104,7 +104,7 @@ func (o *Order) GetStatusLabel() string {
 }
 
 func (o *Order) IsPaid() bool {
-	return o.PaymentStatus == controllers.OrderPaymentStatusPaid
+	return o.PaymentStatus == consts.OrderPaymentStatusPaid
 }
 
 func generateOrderNumber(db *gorm.DB) string {

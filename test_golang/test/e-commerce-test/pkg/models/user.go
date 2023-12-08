@@ -1,6 +1,7 @@
 package models
 
 import (
+
 	"strings"
 	"time"
 
@@ -23,7 +24,7 @@ type User struct {
 func (u *User) FindByEmail(db *gorm.DB, email string) (*User, error) {
 	var err error
 	var user User
-
+	// fmt.Println(email + "aaaaaaa")
 	err = db.Debug().Model(User{}).Where("LOWER(email) = ?", strings.ToLower(email)).
 		First(&user).
 		Error
