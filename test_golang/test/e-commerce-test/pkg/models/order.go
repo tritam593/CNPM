@@ -68,6 +68,8 @@ func (o *Order) CreateOrder(db *gorm.DB, order *Order) (*Order, error) {
 func (o *Order) FindByID(db *gorm.DB, id string) (*Order, error) {
 	var order Order
 
+	// Preload associated relationships to avoid N+1 query problem
+	// similar to with in laravel
 	err := db.Debug().
 		Preload("OrderCustomer").
 		Preload("OrderItems").

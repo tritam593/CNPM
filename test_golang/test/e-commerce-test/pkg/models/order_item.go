@@ -15,6 +15,7 @@ type OrderItem struct {
 	OrderID         string `gorm:"size:36;index"`
 	Product         Product
 	ProductID       string `gorm:"size:36;index"`
+	// Qty represents the quantity of the product in the order item.
 	Qty             int
 	BasePrice       decimal.Decimal `gorm:"type:decimal(16,2)"`
 	BaseTotal       decimal.Decimal `gorm:"type:decimal(16,2)"`
@@ -23,6 +24,7 @@ type OrderItem struct {
 	DiscountAmount  decimal.Decimal `gorm:"type:decimal(16,2)"`
 	DiscountPercent decimal.Decimal `gorm:"type:decimal(10,2)"`
 	SubTotal        decimal.Decimal `gorm:"type:decimal(16,2)"`
+	// Sku represents the Stock Keeping Unit of the product in the order item.
 	Sku             string          `gorm:"size:36;index"`
 	Name            string          `gorm:"size:255"`
 	Weight          decimal.Decimal `gorm:"type:decimal(10,2)"`

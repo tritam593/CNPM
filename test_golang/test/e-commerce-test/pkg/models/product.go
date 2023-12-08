@@ -14,6 +14,7 @@ type Product struct {
 	UserID           string `gorm:"size:36;index"`
 	ProductImages    []ProductImage
 	Categories       []Category      `gorm:"many2many:product_categories;"`
+	// Sku represents the Stock Keeping Unit of the product and is indexed for efficient querying.
 	Sku              string          `gorm:"size:100;index"`
 	Name             string          `gorm:"size:255"`
 	Slug             string          `gorm:"size:255"`

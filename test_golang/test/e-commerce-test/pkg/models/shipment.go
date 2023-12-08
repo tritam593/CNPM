@@ -11,10 +11,12 @@ type Shipment struct {
 	ID          string `gorm:"size:36;not null;uniqueIndex;primary_key"`
 	User        User
 	UserID      string `gorm:"size:36;index"`
+	// Order is an associated Order object for the shipment.
 	Order       Order
 	OrderID     string `gorm:"size:36;index"`
 	TrackNumber string `gorm:"size:255;index"`
 	Status      string `gorm:"size:36;index"`
+	// TotalQty represents the total quantity in the shipment.
 	TotalQty    int
 	TotalWeight decimal.Decimal `gorm:"type:decimal(10,2);"`
 	FirstName   string          `gorm:"size:100;not null"`
