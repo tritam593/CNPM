@@ -5,7 +5,7 @@ import (
 	"log"
 	"math"
 	"net/http"
-	"os"
+
 	"test/e-commerce-test/pkg/models"
 
 	"github.com/gorilla/mux"
@@ -65,7 +65,7 @@ type Result struct {
 	Message string      `json:"message"`
 }
 
-var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
+var store = sessions.NewCookieStore([]byte("secret"))
 var sessionShoppingCart = "shopping-cart-session"
 var sessionFlash = "flash-session"
 var sessionUser = "user-session"
@@ -74,6 +74,7 @@ func (server *Server) Initialize(appConfig AppConfig, dbConfig DBConfig) {
 	fmt.Println("Welcome to " + appConfig.AppName)
 
 	server.initializeDB(dbConfig)
+	server.dbMigrate()
 	server.initializeAppConfig(appConfig)
 	server.initializeRoutes()
 }
@@ -150,6 +151,7 @@ func GetPaginationLinks(config *AppConfig, params PaginationParams) (PaginationL
 		Links:       links,
 	}, nil
 }
+
 
 func SetFlash(w http.ResponseWriter, r *http.Request, name string, value string) {
 	session, err := store.Get(r, sessionFlash)

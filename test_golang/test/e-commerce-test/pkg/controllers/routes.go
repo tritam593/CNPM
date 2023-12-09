@@ -14,8 +14,8 @@ func (server *Server) initializeRoutes() {
 	server.Router.HandleFunc("/register", server.DoRegister).Methods("POST")
 	server.Router.HandleFunc("/logout", server.Logout).Methods("GET")
 
-	// server.Router.HandleFunc("/products", server.Products).Methods("GET")
-	// server.Router.HandleFunc("/products/{slug}", server.GetProductBySlug).Methods("GET")
+	server.Router.HandleFunc("/products", server.Products).Methods("GET")
+	server.Router.HandleFunc("/products/{slug}", server.GetProductBySlug).Methods("GET")
 
 	// server.Router.HandleFunc("/carts", server.GetCart).Methods("GET")
 	// server.Router.HandleFunc("/carts", server.AddItemToCart).Methods("POST")
