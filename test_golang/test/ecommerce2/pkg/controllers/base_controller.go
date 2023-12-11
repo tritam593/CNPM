@@ -6,7 +6,7 @@ import (
 	"math"
 	"net/http"
 
-	"test/e-commerce-test/pkg/models"
+	"test/ecommerce2/pkg/models"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"

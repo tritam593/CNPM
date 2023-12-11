@@ -4,7 +4,7 @@ package pkg
 import (
 	"flag"
 
-	"test/e-commerce-test/pkg/controllers"
+	"test/ecommerce2/pkg/controllers"
 
 	// "github.com/joho/godotenv"
 )

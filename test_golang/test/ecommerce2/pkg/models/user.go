@@ -1,7 +1,6 @@
 package models
 
 import (
-
 	"strings"
 	"time"
 
@@ -67,3 +66,10 @@ func (u *User) CreateUser(db *gorm.DB, param *User) (*User, error) {
 
 	return user, nil
 }
+
+func (u *User) RemoveUser(db *gorm.DB, email string) (*User, error) {
+	var user User
+	db.Model(&User{}).Where("email=?", email).Unscoped().Delete(&user)
+	return &user, nil
+}
+

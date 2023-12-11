@@ -1,9 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+	// "fmt"
+	// "gorm.io/driver/mysql"
+	// "gorm.io/gorm"
+	"test/ecommerce2/pkg"
+	// "encoding/json"
 )
 
 // User là một mô hình đơn giản để minh họa preload
@@ -23,23 +25,23 @@ type Post struct {
 
 func main() {
 	// Mở kết nối với MySQL
-	dsn := "tam:1@tcp(127.0.0.1:3306)/temp?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		panic("Could not connect to the database")
-	}
+	// dsn := "tam:1@tcp(127.0.0.1:3306)/temp?charset=utf8mb4&parseTime=True&loc=Local"
+	// db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	// if err != nil {
+	// 	panic("Could not connect to the database")
+	// }
 
 	// Auto Migrate các bảng
-	db.AutoMigrate(&User{}, &Post{})
+	// db.AutoMigrate(&User{}, &Post{})
 
-	// Tạo 10 người dùng với mỗi người dùng có 3 bài viết
+	// // Tạo 10 người dùng với mỗi người dùng có 3 bài viết
 	// for i := 1; i <= 10; i++ {
 	// 	user := User{
 	// 		Name:  fmt.Sprintf("User %d", i),
 	// 		Email: fmt.Sprintf("user%d@example.com", i),
 	// 	}
 
-	// 	// Tạo người dùng
+	// // 	// Tạo người dùng
 	// 	db.Create(&user)
 
 	// 	// Tạo 3 bài viết cho người dùng
@@ -63,18 +65,28 @@ func main() {
 	// }
 	// db.Create(&temp)
 	// Query một người dùng và in thông tin người dùng và các bài viết preload
-	var retrievedUser []User
-	if err := db.Preload("Posts").Find(&retrievedUser).Error; err != nil {
-		panic("Could not retrieve user")
-	}
+	// var retrievedUser User
+	// if err := db.Preload("Posts").Find(&retrievedUser).Error; err != nil {
+	// 	panic("Could not retrieve user")
+	// }
 
 	// fmt.Println("User:", retrievedUser.Name, "Email:", retrievedUser.Email)
 	// fmt.Println("Posts:")
 	// for _, post := range retrievedUser.Posts {
 	// 	fmt.Println(" -", post.Title)
 	// }
+	// jsonData, err := json.MarshalIndent(retrievedUser, "", "    ")
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// 	return
+	// }
 
-	for _, u := range retrievedUser {
-		fmt.Println(u)
-	}
+	// In ra chuỗi JSON
+	// fmt.Println(string(jsonData))
+
+	// for _, u := range retrievedUser {
+	// 	fmt.Println(u)
+	// }
+
+	pkg.Run()
 }

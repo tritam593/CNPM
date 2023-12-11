@@ -2,71 +2,78 @@ package controllers
 
 import (
 	"encoding/json"
+	
 	"net/http"
-	"strconv"
+
+	// "strconv"
 
 	"github.com/gorilla/mux"
 
-	"test/e-commerce-test/pkg/models"
+	"test/ecommerce2/pkg/models"
+	"test/ecommerce2/pkg/utils"
 )
 
 func (server *Server) Products(w http.ResponseWriter, r *http.Request) {
-
-	q := r.URL.Query()
-	page, _ := strconv.Atoi(q.Get("page"))
-	if page <= 0 {
-		page = 1
-	}
-
-	perPage := 9
-
 	productModel := models.Product{}
-	products, totalRows, err := productModel.GetProducts(server.DB, perPage, page)
+	products, err := productModel.GetProducts(server.DB)
 	if err != nil {
 		return
 	}
 
-	pagination, _ := GetPaginationLinks(server.AppConfig, PaginationParams{
-		Path:        "products",
-		TotalRows:   int32(totalRows),
-		PerPage:     int32(perPage),
-		CurrentPage: int32(page),
-	})
-
-	temp := map[string]interface{}{
-		"products":   products,
-		"pagination": pagination,
-		"user":       server.CurrentUser(w, r),
-	}
-
-	res, _ := json.Marshal(&temp)
+	res, _ := json.Marshal(&products)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
 
-func (server *Server) GetProductBySlug(w http.ResponseWriter, r *http.Request) {
-
+func (server *Server) GetProductByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-
-	if vars["slug"] == "" {
+	if vars["id"] == "" {
 		return
 	}
 
 	productModel := models.Product{}
-	product, err := productModel.FindBySlug(server.DB, vars["slug"])
+	product, err := productModel.FindByID(server.DB, vars["id"])
 	if err != nil {
 		return
 	}
 
-	temp := map[string]interface{}{
-		"product": product,
-		"success": GetFlash(w, r, "success"),
-		"error":   GetFlash(w, r, "error"),
-		"user":    server.CurrentUser(w, r),
+	res, _ := json.Marshal(&product)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+func (server *Server) CreateProduct(w http.ResponseWriter, r *http.Request) {
+	productModel := models.Product{}
+	utils.ParseBody(r, &productModel)
+	err := productModel.CreateProduct(server.DB)
+	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Sorry, Something wrong when create product"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
+		return
+	}
+	res, _ := json.Marshal(&status{Check: "create product OK"})
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+func (server *Server) DeleteProduct(w http.ResponseWriter, r *http.Request){
+	vars := mux.Vars(r)
+	if vars["id"] == "" {
+		return
 	}
 
-	res, _ := json.Marshal(&temp)
+	productModel := models.Product{}
+	product, err := productModel.DeleteProduct(server.DB, vars["id"])
+	if err != nil {
+		return
+	}
+
+	res, _ := json.Marshal(&product)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
