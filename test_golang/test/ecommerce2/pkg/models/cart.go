@@ -8,7 +8,7 @@ import (
 type Cart struct {
 	ID              string `gorm:"size:36;not null;uniqueIndex;primary_key"`
 	CartItems       []CartItem
-	UserID			string `gorm:"size:36;index"`
+	UserID          string          `gorm:"size:36;index"`
 	BaseTotalPrice  decimal.Decimal `gorm:"type:decimal(16,2)"`
 	TaxAmount       decimal.Decimal `gorm:"type:decimal(16,2)"`
 	TaxPercent      decimal.Decimal `gorm:"type:decimal(10,2)"`
@@ -23,7 +23,6 @@ func (c *Cart) GetCart(db *gorm.DB, cartID string) (*Cart, error) {
 	var cart Cart
 
 	err = db.Debug().Preload("CartItems").
-		Preload("CartItems.Product").
 		Model(Cart{}).Where("id = ?", cartID).First(&cart).Error
 	if err != nil {
 		return nil, err
@@ -100,7 +99,7 @@ func (c *Cart) CalculateCart(db *gorm.DB, cartID string) (*Cart, error) {
 func (c *Cart) AddItem(db *gorm.DB, item CartItem) (*CartItem, error) {
 	var existItem, updateItem CartItem
 	var product Product
-
+	// check the product already has in database
 	err := db.Debug().Model(Product{}).Where("id = ?", item.ProductID).First(&product).Error
 	if err != nil {
 		return nil, err

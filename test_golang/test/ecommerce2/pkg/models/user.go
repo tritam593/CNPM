@@ -50,29 +50,6 @@ func (u *User) FindByID(db *gorm.DB, userID string) (*User, error) {
 	return &user, nil
 }
 
-// CreateUser creates a new user in the database using the provided User parameter.
-//
-// Parameters:
-//   - db: A pointer to the Gorm database instance.
-//   - param: A pointer to the User struct containing user details.
-//
-// Returns:
-//   - *User: A pointer to the newly created User instance.
-//   - error: An error, if any, encountered during the database operation.
-//
-// Example:
-//   user := &User{
-//       ID:        1,
-//       FirstName: "John",
-//       LastName:  "Doe",
-//       Email:     "john.doe@example.com",
-//       Password:  "hashed_password",
-//   }
-//   createdUser, err := CreateUser(databaseInstance, user)
-//   if err != nil {
-//       log.Fatal(err)
-//   }
-//   fmt.Printf("User created with ID: %d\n", createdUser.ID)
 func (u *User) CreateUser(db *gorm.DB, param *User) (*User, error) {
 	user := &User{
 		ID:        param.ID,
