@@ -5,8 +5,6 @@ import (
 	
 	"net/http"
 
-	// "strconv"
-
 	"test/ecommerce2/pkg/models"
 	"test/ecommerce2/pkg/utils"
 

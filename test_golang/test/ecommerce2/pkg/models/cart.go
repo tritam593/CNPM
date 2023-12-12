@@ -6,84 +6,51 @@ import (
 )
 
 type Cart struct {
-	ID              string `gorm:"size:36;not null;uniqueIndex;primary_key"`
-	CartItems       []CartItem
-	UserID          string          `gorm:"size:36;index"`
-	BaseTotalPrice  decimal.Decimal `gorm:"type:decimal(16,2)"`
-	TaxAmount       decimal.Decimal `gorm:"type:decimal(16,2)"`
-	TaxPercent      decimal.Decimal `gorm:"type:decimal(10,2)"`
-	DiscountAmount  decimal.Decimal `gorm:"type:decimal(16,2)"`
-	DiscountPercent decimal.Decimal `gorm:"type:decimal(10,2)"`
-	GrandTotal      decimal.Decimal `gorm:"type:decimal(16,2)"`
-	TotalWeight     int             `gorm:"-"`
+	ID             string `gorm:"size:36;not null;uniqueIndex;primary_key"`
+	CartItems      []CartItem
+	UserID         string          `gorm:"size:36;index"`
+	BaseTotalPrice decimal.Decimal `gorm:"type:decimal(16,2)"`
 }
 
-func (c *Cart) GetCart(db *gorm.DB, cartID string) (*Cart, error) {
+func (c *Cart) GetCart(db *gorm.DB, userID string) (*Cart, error) {
 	var err error
 	var cart Cart
 
 	err = db.Debug().Preload("CartItems").
-		Model(Cart{}).Where("id = ?", cartID).First(&cart).Error
+		Model(Cart{}).Where("User_ID = ?", userID).First(&cart).Error
 	if err != nil {
 		return nil, err
 	}
+
+	cart_item, _ := c.GetItems(db, cart.ID)
+	cart.CartItems = cart_item
 
 	return &cart, nil
 }
 
-func (c *Cart) CreateCart(db *gorm.DB, cartID string) (*Cart, error) {
-	cart := &Cart{
-		ID:              cartID,
-		BaseTotalPrice:  decimal.NewFromInt(0),
-		TaxAmount:       decimal.NewFromInt(0),
-		TaxPercent:      decimal.NewFromInt(11),
-		DiscountAmount:  decimal.NewFromInt(0),
-		DiscountPercent: decimal.NewFromInt(0),
-		GrandTotal:      decimal.NewFromInt(0),
-	}
+func (c *Cart) CreateCart(db *gorm.DB) (*Cart, error) {
 
-	err := db.Debug().Create(&cart).Error
+	err := db.Debug().Create(&c).Error
 	if err != nil {
 		return nil, err
 	}
 
-	return cart, nil
+	return c, nil
 }
 
-// CalculateCart calculates and updates the total prices and amounts for a given cart.
-// It takes a Gorm database instance (db) and the ID of the cart to be calculated.
-// The method iterates through each cart item, calculates item-specific totals,
-// and aggregates them to determine the overall cart base total, tax amount, discount amount,
-// and grand total. The updated values are then stored in the database for the specified cart.
-// The method returns a pointer to the updated Cart and an error, if any.
-func (c *Cart) CalculateCart(db *gorm.DB, cartID string) (*Cart, error) {
+func (c *Cart) CalculateCart(db *gorm.DB) (*Cart, error) {
 	cartBaseTotalPrice := 0.0
-	cartTaxAmount := 0.0
-	cartDiscountAmount := 0.0
-	cartGrandTotal := 0.0
 	// Iterate through each cart item to calculate totals
 	for _, item := range c.CartItems {
 		itemBaseTotal, _ := item.BaseTotal.Float64()
-		itemTaxAmount, _ := item.TaxAmount.Float64()
-		itemSubTotalTaxAmount := itemTaxAmount * float64(item.Qty)
-		itemDiscountAmount, _ := item.DiscountAmount.Float64()
-		itemSubTotalDiscountAmount := itemDiscountAmount * float64(item.Qty)
-		itemSubTotal, _ := item.SubTotal.Float64()
-
 		cartBaseTotalPrice += itemBaseTotal
-		cartTaxAmount += itemSubTotalTaxAmount
-		cartDiscountAmount += itemSubTotalDiscountAmount
-		cartGrandTotal += itemSubTotal
 	}
 
-	var updateCart, cart Cart
+	var cart Cart
 
-	updateCart.BaseTotalPrice = decimal.NewFromFloat(cartBaseTotalPrice)
-	updateCart.TaxAmount = decimal.NewFromFloat(cartTaxAmount)
-	updateCart.DiscountAmount = decimal.NewFromFloat(cartDiscountAmount)
-	updateCart.GrandTotal = decimal.NewFromFloat(cartGrandTotal)
+	c.BaseTotalPrice = decimal.NewFromFloat(cartBaseTotalPrice)
+	err := db.Debug().First(&cart, "id = ?", c.ID).Updates(c).Error
 
-	err := db.Debug().First(&cart, "id = ?", c.ID).Updates(updateCart).Error
 	if err != nil {
 		return nil, err
 	}
@@ -91,11 +58,6 @@ func (c *Cart) CalculateCart(db *gorm.DB, cartID string) (*Cart, error) {
 	return &cart, nil
 }
 
-// AddItem adds a new item to the cart or updates the quantity if the item already exists.
-// It takes a Gorm database instance (db) and a CartItem representing the item to be added.
-// If the item already exists in the cart, its quantity is updated, and totals are recalculated.
-// If the item does not exist, a new CartItem is created and added to the cart.
-// The method returns a pointer to the added or updated CartItem and an error, if any.
 func (c *Cart) AddItem(db *gorm.DB, item CartItem) (*CartItem, error) {
 	var existItem, updateItem CartItem
 	var product Product
@@ -106,28 +68,17 @@ func (c *Cart) AddItem(db *gorm.DB, item CartItem) (*CartItem, error) {
 	}
 
 	basePrice, _ := product.Price.Float64()
-	taxAmount := GetTaxAmount(basePrice)
-	discountAmount := 0.0
 
 	// Check if the item already exists in the cart
 	err = db.Debug().Model(CartItem{}).
-		Where("cart_id = ?", c.ID).
+		Where("cart_id = ?", item.CartID).
 		Where("product_id = ?", product.ID).
 		First(&existItem).Error
 
 	// If the item does not exist, create a new cart item and add it to the database
 	if err != nil {
-		subTotal := float64(item.Qty) * (basePrice + taxAmount - discountAmount)
-
-		item.CartID = c.ID
 		item.BasePrice = product.Price
 		item.BaseTotal = decimal.NewFromFloat(basePrice * float64(item.Qty))
-		item.TaxPercent = decimal.NewFromFloat(GetTaxPercent())
-		item.TaxAmount = decimal.NewFromFloat(taxAmount)
-		item.DiscountPercent = decimal.NewFromFloat(0)
-		item.DiscountAmount = decimal.NewFromFloat(discountAmount)
-		item.SubTotal = decimal.NewFromFloat(subTotal)
-
 		err = db.Debug().Create(&item).Error
 		if err != nil {
 			return nil, err
@@ -139,9 +90,6 @@ func (c *Cart) AddItem(db *gorm.DB, item CartItem) (*CartItem, error) {
 	// If the item already exists, update its quantity and recalculate totals
 	updateItem.Qty = existItem.Qty + item.Qty
 	updateItem.BaseTotal = decimal.NewFromFloat(basePrice * float64(updateItem.Qty))
-
-	subTotal := float64(updateItem.Qty) * (basePrice + taxAmount - discountAmount)
-	updateItem.SubTotal = decimal.NewFromFloat(subTotal)
 
 	// Update the existing item in the database
 	err = db.Debug().First(&existItem, "id = ?", existItem.ID).Updates(updateItem).Error
@@ -166,68 +114,33 @@ func (c *Cart) GetItems(db *gorm.DB, cartID string) ([]CartItem, error) {
 	return items, nil
 }
 
-func (c *Cart) UpdateItemQty(db *gorm.DB, itemID string, qty int) (*CartItem, error) {
-	var existItem, updateItem CartItem
-
-	err := db.Debug().Model(CartItem{}).
-		Where("id = ?", itemID).
-		First(&existItem).Error
-	if err != nil {
-		return nil, err
-	}
-
-	var product Product
-
-	err = db.Debug().Model(Product{}).Where("id = ?", existItem.ProductID).First(&product).Error
-	if err != nil {
-		return nil, err
-	}
-
-	basePrice, _ := product.Price.Float64()
-	taxAmount := GetTaxAmount(basePrice)
-	discountAmount := 0.0
-
-	updateItem.Qty = qty
-	updateItem.BaseTotal = decimal.NewFromFloat(basePrice * float64(updateItem.Qty))
-
-	subTotal := float64(updateItem.Qty) * (basePrice + taxAmount - discountAmount)
-	updateItem.SubTotal = decimal.NewFromFloat(subTotal)
-
-	err = db.Debug().First(&existItem, "id = ?", existItem.ID).Updates(updateItem).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return &existItem, nil
-}
-
-func (c *Cart) RemoveItemByID(db *gorm.DB, itemID string) error {
+func (c *Cart) RemoveItemByID(db *gorm.DB, itemID string) (*CartItem, error) {
 	var err error
 	var item CartItem
 
 	err = db.Debug().Model(&CartItem{}).Where("id = ?", itemID).First(&item).Error
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	err = db.Debug().Delete(&item).Error
+	err = db.Debug().Unscoped().Delete(&item).Error
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return &item, nil
 }
 
-func (c *Cart) ClearCart(db *gorm.DB, cartID string) error {
-	err := db.Debug().Where("cart_id = ?", cartID).Delete(&CartItem{}).Error
-	if err != nil {
-		return err
-	}
+// func (c *Cart) ClearCart(db *gorm.DB, cartID string) error {
+// 	err := db.Debug().Where("cart_id = ?", cartID).Delete(&CartItem{}).Error
+// 	if err != nil {
+// 		return err
+// 	}
 
-	err = db.Debug().Where("id = ?", cartID).Delete(&Cart{}).Error
-	if err != nil {
-		return err
-	}
+// 	err = db.Debug().Where("id = ?", cartID).Delete(&Cart{}).Error
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }

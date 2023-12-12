@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
-	
+	"fmt"
 
 	// "fmt"
 	"net/http"
@@ -10,6 +10,7 @@ import (
 	"test/ecommerce2/pkg/utils"
 
 	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 )
 
 // store variable in base_controller file
@@ -19,30 +20,19 @@ type user_login struct {
 	Password string `json:"password"`
 }
 
-type user_register struct {
-	FirstName string `json:"FirstName"`
-	LastName  string `json:"LastName"`
-	Email     string `json:"Email"`
-	Password  string `json:"Password"`
-}
-
 type status struct {
 	Check string
 }
 
-// display the login interface
-func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
-
-}
-
 func (server *Server) DoLogin(w http.ResponseWriter, r *http.Request) {
 	user_temp := &user_login{}
-	utils.ParseBody(r, user_temp)
+	utils.ParseBody(r, &user_temp)
 
 	userModel := models.User{}
 	user, err := userModel.FindByEmail(server.DB, user_temp.Email)
 	if err != nil {
 		// SetFlash(w, r, "error", "email or password invalid")
+		
 		res, _ := json.Marshal(&status{Check: "email or password invalid"})
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -52,6 +42,7 @@ func (server *Server) DoLogin(w http.ResponseWriter, r *http.Request) {
 
 	if !ComparePassword(user_temp.Password, user.Password) {
 		// SetFlash(w, r, "error", "email or password invalid")
+		fmt.Println("aaaaaaaa")
 		res, _ := json.Marshal(&status{Check: "email or password invalid"})
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -75,11 +66,11 @@ func (server *Server) DoLogin(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) DoRegister(w http.ResponseWriter, r *http.Request) {
 
-	user_temp := &user_register{}
-	utils.ParseBody(r, user_temp)
+	userModel := &models.User{}
+	utils.ParseBody(r, userModel)
+	userModel.ID = uuid.New().String()
 
-	userModel := models.User{}
-	existUser, _ := userModel.FindByEmail(server.DB, user_temp.Email)
+	existUser, _ := userModel.FindByEmail(server.DB, userModel.Email)
 	if existUser != nil {
 		// SetFlash(w, r, "error", "Sorry, email already registered")
 		res, _ := json.Marshal(&status{Check: "Sorry, email already registered"})
@@ -89,16 +80,10 @@ func (server *Server) DoRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashedPassword, _ := MakePassword(user_temp.Password)
-	params := &models.User{
-		ID:        uuid.New().String(),
-		FirstName: user_temp.FirstName,
-		LastName:  user_temp.LastName,
-		Email:     user_temp.Email,
-		Password:  hashedPassword,
-	}
+	hashedPassword, _ := MakePassword(userModel.Password)
+	userModel.Password = hashedPassword
 
-	user, err := userModel.CreateUser(server.DB, params)
+	user, err := userModel.CreateUser(server.DB)
 	if err != nil {
 		// SetFlash(w, r, "error", "Sorry, registration failed")
 		res, _ := json.Marshal(&status{Check: "Sorry, registration failed"})
@@ -133,26 +118,55 @@ func (server *Server) Logout(w http.ResponseWriter, r *http.Request) {
 	// http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
-func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request){
-	user_temp := &user_login{}
-	utils.ParseBody(r, user_temp)
-	userModel := models.User{}
-	user, err := userModel.FindByEmail(server.DB, user_temp.Email)
-	if err != nil {
-		// SetFlash(w, r, "error", "email or password invalid")
-		res, _ := json.Marshal(&status{Check: "email or password invalid"})
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		w.Write(res)
+func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	if vars["id"] == "" {
 		return
 	}
-	userModel.RemoveUser(server.DB, user.Email)
+	userModel := models.User{}
+	userModel.RemoveUser(server.DB, vars["id"])
 	session, _ := store.Get(r, sessionUser)
 
 	session.Values["id"] = nil
 	session.Save(r, w)
 
 	res, _ := json.Marshal(&status{Check: "ok"})
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+func (server *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	if vars["id"] == "" {
+		return
+	}
+
+	userModel := models.User{}
+	utils.ParseBody(r, &userModel)
+	// fmt.Println(userModel)
+	if userModel.Password != "" {
+		userModel.Password, _ = MakePassword(userModel.Password)
+	}
+	user, _ := userModel.UpdateUser(server.DB, vars["id"])
+
+	res, _ := json.Marshal(&user)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	if vars["id"] == "" {
+		return
+	}
+
+	userModel := models.User{}
+	// fmt.Println(userModel)
+	user, _ := userModel.FindByID(server.DB, vars["id"])
+
+	res, _ := json.Marshal(&user)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)

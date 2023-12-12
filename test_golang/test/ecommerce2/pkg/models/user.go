@@ -4,13 +4,14 @@ import (
 	"strings"
 	"time"
 
+	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
 )
 
 type User struct {
 	ID            string `gorm:"size:36;not null;uniqueIndex;primary_key"`
-	Addresses     string
-	CartID        *Cart
+	Address       string
 	FirstName     string `gorm:"size:100;not null"`
 	LastName      string `gorm:"size:100;not null"`
 	Email         string `gorm:"size:100;not null;uniqueIndex"`
@@ -39,7 +40,7 @@ func (u *User) FindByID(db *gorm.DB, userID string) (*User, error) {
 	var err error
 	var user User
 
-	err = db.Debug().Model(User{}).Where("id = ?", userID).
+	err = db.Debug().Model(User{}).Omit("Password").Where("id = ?", userID).
 		First(&user).
 		Error
 	if err != nil {
@@ -49,27 +50,30 @@ func (u *User) FindByID(db *gorm.DB, userID string) (*User, error) {
 	return &user, nil
 }
 
-func (u *User) CreateUser(db *gorm.DB, param *User) (*User, error) {
-	user := &User{
-		ID:        param.ID,
-		FirstName: param.FirstName,
-		Addresses: param.Addresses,
-		LastName:  param.LastName,
-		Email:     param.Email,
-		Password:  param.Password,
-	}
+func (u *User) CreateUser(db *gorm.DB) (*User, error) {
 
-	err := db.Debug().Create(&user).Error
+	err := db.Debug().Create(&u).Error
 	if err != nil {
 		return nil, err
 	}
 
-	return user, nil
+	cart := &Cart{}
+	cart.UserID = u.ID
+	cart.ID = uuid.New().String()
+	cart.BaseTotalPrice = decimal.NewFromInt(0)
+	cart.CreateCart(db)
+
+	return u, nil
 }
 
-func (u *User) RemoveUser(db *gorm.DB, email string) (*User, error) {
+func (u *User) RemoveUser(db *gorm.DB, userID string) (*User, error) {
 	var user User
-	db.Model(&User{}).Where("email=?", email).Unscoped().Delete(&user)
+	db.Model(&User{}).Where("ID=?", userID).Unscoped().Delete(&user)
+	db.Debug().Model(&Cart{}).Where("User_ID=?", userID).Unscoped().Delete(&Cart{})
 	return &user, nil
 }
 
+func (u *User) UpdateUser(db *gorm.DB, userID string) (*User, error) {
+	db.Debug().Model(&User{}).Where("id = ?", userID).Updates(&u)
+	return u.FindByID(db, userID)
+}

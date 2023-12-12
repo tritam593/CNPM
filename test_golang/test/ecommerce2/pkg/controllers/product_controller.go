@@ -2,10 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
-	
-	"net/http"
 
-	// "strconv"
+	"net/http"
 
 	"github.com/gorilla/mux"
 
@@ -61,7 +59,7 @@ func (server *Server) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	w.Write(res)
 }
 
-func (server *Server) DeleteProduct(w http.ResponseWriter, r *http.Request){
+func (server *Server) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	if vars["id"] == "" {
 		return
@@ -72,6 +70,23 @@ func (server *Server) DeleteProduct(w http.ResponseWriter, r *http.Request){
 	if err != nil {
 		return
 	}
+
+	res, _ := json.Marshal(&product)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+func (server *Server) UpdateProduct(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	if vars["id"] == "" {
+		return
+	}
+
+	productModel := models.Product{}
+	utils.ParseBody(r, &productModel)
+	// fmt.Println(productModel)
+	product, _ := productModel.UpdateProduct(server.DB, vars["id"])
 
 	res, _ := json.Marshal(&product)
 	w.Header().Set("Content-Type", "application/json")
