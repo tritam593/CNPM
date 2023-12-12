@@ -72,7 +72,6 @@ func (o *Order) FindByUserID(db *gorm.DB, UserID string) (*Order, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return o, nil
 }
 
