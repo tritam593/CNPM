@@ -15,35 +15,26 @@ import (
 )
 
 type Order struct {
-	ID                  string `gorm:"size:36;not null;uniqueIndex;primary_key"`
-	UserID              string `gorm:"size:36;index"`
-	User                User
-	OrderItems          []OrderItem
-	OrderCustomer       *OrderCustomer
-	Code                string `gorm:"size:50;index"`
-	Status              int
-	OrderDate           time.Time
-	PaymentDue          time.Time
-	PaymentStatus       string          `gorm:"size:50;index"`
-	PaymentToken        sql.NullString  `gorm:"size:100;index"`
-	BaseTotalPrice      decimal.Decimal `gorm:"type:decimal(16,2)"`
-	TaxAmount           decimal.Decimal `gorm:"type:decimal(16,2)"`
-	TaxPercent          decimal.Decimal `gorm:"type:decimal(10,2)"`
-	DiscountAmount      decimal.Decimal `gorm:"type:decimal(16,2)"`
-	DiscountPercent     decimal.Decimal `gorm:"type:decimal(10,2)"`
-	ShippingCost        decimal.Decimal `gorm:"type:decimal(16,2)"`
-	GrandTotal          decimal.Decimal `gorm:"type:decimal(16,2)"`
-	Note                string          `gorm:"type:text"`
-	ShippingCourier     string          `gorm:"size:100"`
-	ShippingServiceName string          `gorm:"size:100"`
-	ApprovedBy          sql.NullString  `gorm:"size:36"`
-	ApprovedAt          sql.NullTime
-	CancelledBy         sql.NullString `gorm:"size:36"`
-	CancelledAt         sql.NullTime
-	CancellationNote    sql.NullString `gorm:"size:255"`
-	CreatedAt           time.Time
-	UpdatedAt           time.Time
-	DeletedAt           gorm.DeletedAt
+	ID               string `gorm:"size:36;not null;uniqueIndex;primary_key"`
+	UserID           string `gorm:"size:36;index"`
+	User             User
+	OrderItems       []OrderItem
+	OrderCustomer    *OrderCustomer
+	Code             string `gorm:"size:50;index"`
+	Status           int
+	OrderDate        time.Time
+	PaymentDue       time.Time
+	PaymentStatus    string          `gorm:"size:50;index"`
+	PaymentToken     sql.NullString  `gorm:"size:100;index"`
+	BaseTotalPrice   decimal.Decimal `gorm:"type:decimal(16,2)"`
+	ShippingCost     decimal.Decimal `gorm:"type:decimal(16,2)"`
+	Note             string          `gorm:"type:text"`
+	CancelledBy      sql.NullString  `gorm:"size:36"`
+	CancelledAt      sql.NullTime
+	CancellationNote sql.NullString `gorm:"size:255"`
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+	DeletedAt        gorm.DeletedAt
 }
 
 func (o *Order) BeforeCreate(db *gorm.DB) error {
@@ -56,32 +47,33 @@ func (o *Order) BeforeCreate(db *gorm.DB) error {
 	return nil
 }
 
-func (o *Order) CreateOrder(db *gorm.DB, order *Order) (*Order, error) {
-	result := db.Debug().Create(order)
+func (o *Order) CreateOrder(db *gorm.DB) (*Order, error) {
+	o.OrderDate = time.Now()
+	o.PaymentDue = time.Now().AddDate(0, 0, 7)
+	result := db.Debug().Create(&o)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 
-	return order, nil
+	return o, nil
 }
 
-func (o *Order) FindByID(db *gorm.DB, id string) (*Order, error) {
-	var order Order
+func (o *Order) FindByUserID(db *gorm.DB, UserID string) (*Order, error) {
 
-	// Preload associated relationships to avoid N+1 query problem
-	// similar to with in laravel
 	err := db.Debug().
 		Preload("OrderCustomer").
 		Preload("OrderItems").
 		Preload("OrderItems.Product").
-		Preload("User").
-		Model(&Order{}).Where("id = ?", id).
-		First(&order).Error
+		Preload("User", func(tx *gorm.DB) *gorm.DB {
+			return tx.Omit("Password")
+		}).
+		Model(&Order{}).Where("User_ID = ?", UserID).
+		First(&o).Error
 	if err != nil {
 		return nil, err
 	}
 
-	return &order, nil
+	return o, nil
 }
 
 func (o *Order) GetStatusLabel() string {

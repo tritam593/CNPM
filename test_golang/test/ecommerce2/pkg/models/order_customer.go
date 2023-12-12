@@ -8,19 +8,13 @@ import (
 )
 
 type OrderCustomer struct {
-	ID         string `gorm:"size:36;not null;uniqueIndex;primary_key"`
-	User       User
-	UserID     string `gorm:"size:36;index"`
-	Order      Order
-	OrderID    string `gorm:"size:36;index"`
-	FirstName  string `gorm:"size:100;not null"`
-	LastName   string `gorm:"size:100;not null"`
-	Address1   string `gorm:"size:100;"`
-	Address2   string `gorm:"size:100;"`
-	Phone      string `gorm:"size:50;"`
-	Email      string `gorm:"size:100;"`
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	ID        string `gorm:"size:36;not null;uniqueIndex;primary_key"`
+	User      User
+	UserID    string `gorm:"size:36;index"`
+	Order     Order
+	OrderID   string `gorm:"size:36;index"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (o *OrderCustomer) BeforeCreate(db *gorm.DB) error {

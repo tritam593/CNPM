@@ -34,12 +34,6 @@ func (server *Server) initializeRoutes() {
 	server.Router.HandleFunc("/carts", server.AddItem).Methods("POST")
 	server.Router.HandleFunc("/carts/{id}", server.DeleteItem).Methods("DELETE")
 
-	// server.Router.HandleFunc("/carts/update", server.UpdateCart).Methods("POST")
-	// server.Router.HandleFunc("/carts/cities", server.GetCitiesByProvince).Methods("GET")
-	// server.Router.HandleFunc("/carts/calculate-shipping", server.CalculateShipping).Methods("POST")
-	// server.Router.HandleFunc("/carts/apply-shipping", server.ApplyShipping).Methods("POST")
-	// server.Router.HandleFunc("/carts/remove/{id}", server.RemoveItemByID).Methods("GET")
-
-	// server.Router.HandleFunc("/orders/checkout", server.Checkout).Methods("POST")
-	// server.Router.HandleFunc("/orders/{id}", server.ShowOrder).Methods("GET")
+	server.Router.HandleFunc("/orders", server.CreateOrder).Methods("POST")
+	server.Router.HandleFunc("/orders/{id}", server.GetOrderByUserID).Methods("GET")
 }
