@@ -17,10 +17,10 @@ spec:
         track: stable
     spec:
       containers:
-        - name: hello
+        - name: back-go
         
-          image: backend-flask
+          image: backend-golang
           # never pull the image policy
           imagePullPolicy: Never
           ports:
-          - containerPort: 5000
+          - containerPort: 9000

@@ -1,14 +1,13 @@
 package pkg
 
-
 import (
-	"flag"
-
 	"app/pkg/controllers"
-
-	// "github.com/joho/godotenv"
+	// "encoding/json"
+	// "github.com/gorilla/mux"
+	// // "log"
+	// "github.com/gin-gonic/gin"
+	// "net/http"
 )
-
 
 func Run() {
 	var server = controllers.Server{}
@@ -18,24 +17,24 @@ func Run() {
 	appConfig.AppName = "GoToko"
 	appConfig.AppEnv = "development"
 	appConfig.AppPort = "9000"
-	appConfig.AppURL = "http://127.0.0.1:9000"
+	appConfig.AppURL = "http://0.0.0.0:9000"
 
-	dbConfig.DBHost = "127.0.0.1"
+	dbConfig.DBHost = "database-service"
 	dbConfig.DBUser = "root"
 	dbConfig.DBPassword = "1"
 	dbConfig.DBName = "ECOMMERCE"
-	dbConfig.DBPort = "3000"
+	dbConfig.DBPort = "3306"
 	dbConfig.DBDriver = "mysql"
 
-	flag.Parse()
 	// arg := flag.Arg(0)
 
 	server.Initialize(appConfig, dbConfig)
-	server.Run("127.0.0.1:" + appConfig.AppPort)
-	// if arg != "" {
-	// 	server.InitCommands(appConfig, dbConfig)
-	// } else {
-	// 	server.Initialize(appConfig, dbConfig)
-	// 	server.Run(":" + appConfig.AppPort)
-	// }
+	server.Run("0.0.0.0:" + appConfig.AppPort)
+	// server.Router = mux.NewRouter()
+	// router := gin.Default()
+	// router.GET("/", func(c *gin.Context) {
+	// 	c.IndentedJSON(http.StatusOK, map[string]interface{}{"a":1, "b" : "hello"})
+	// })
+	// router.Run("0.0.0.0:9000")
+
 }

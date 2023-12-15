@@ -10,5 +10,5 @@ spec:
     track: stable
   ports:
   - protocol: TCP
-    port: 5000
-    targetPort: 5000
+    port: 9000
+    targetPort: 9000
