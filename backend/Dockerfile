@@ -1,25 +1,20 @@
+FROM mysql:latest as db
 
-# FROM python:3.8
+ENV MYSQL_ROOT_PASSWORD=1
 
-# COPY requirements.txt requirements.txt
-
-# RUN pip install -r requirements.txt
-
-# COPY . .
+# Sao chép các tệp SQL khởi tạo vào container (nếu có)
+COPY ./init-db/init.sql /docker-entrypoint-initdb.d/
 
 
-# CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0" ]
+FROM golang:1.21.4-alpine as program
 
-FROM python:3.10.13-slim
+WORKDIR /app
+COPY ./app ./
 
-RUN apt update
-RUN apt install python3-pip -y
-RUN pip3 install Flask
-RUN pip3 install numpy
-RUN pip3 install flask_cors
+# RUN go mod download
 
-COPY ./backend/app.py app.py
-EXPOSE 5000
 
-CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0" ]
+RUN go mod tidy
+RUN CGO_ENABLED=0 GOOS=linux go build main.go
 
+CMD ["./main"]
