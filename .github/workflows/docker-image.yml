@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main", "tam-backend-golang" ]
   pull_request:
     branches: [ "main" ]
 
@@ -16,7 +16,9 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the backend Docker image
       run: |
-        docker build . --file ./backend/Dockerfile --tag backend-flask
+        docker build -t backend-golang --target program .
+        docker build -t mysql-db --target db .
+      working-directory: ./backend
 
     - name: Run backend docker to test
       run : |
@@ -53,50 +55,3 @@ jobs:
         docker stop test-flask
         docker stop test-front
   
-  # build-k8s:
-  #   # needs: build-docker
-  #   runs-on: ubuntu-latest
-  #   continue-on-error: false
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     # - uses: azure/setup-kubectl@v3
-  #     #   with:
-  #     #     version: 'latest' # default is latest stable
-  #     #   id: install
-  #     - name: Testing on a k8s Kind Cluster
-  #       uses: helm/kind-action@v1.4.0
-
-  #     - name: Build docker
-  #       run: |
-  #         cd frontend;
-  #         docker build -t frontend-flask .;
-  #         cd ..;
-  #         docker build . --file ./backend/Dockerfile --tag backend-flask;
-
-  #     - name: Run k8s
-  #       run: |
-  #         kubectl apply -f backend/backend-deployment.yaml ;echo 11111111111111
-  #         kubectl apply -f backend/backend-service.yaml ;echo 22222222222
-  #         kubectl apply -f frontend/frontend-deployment.yaml ;echo 33333333333333
-  #         kubectl apply -f frontend/frontend-service.yaml ;echo 4444444444444444
-      
-  #     - name: Set up Python 3.10
-  #       uses: actions/setup-python@v3
-  #       with:
-  #         python-version: "3.10"
-
-  #     - name: Install library 
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-  #     - name: test k8s
-  #       run : |
-  #         python3 test_k8s.py
-
-  #     - name: Stop k8s
-  #       run: |
-  #         kubectl delete -f backend/backend-deployment.yaml 
-  #         kubectl delete -f backend/backend-service.yaml 
-  #         kubectl delete -f frontend/frontend-deployment.yaml 
-  #         kubectl delete -f frontend/frontend-service.yaml 
-    

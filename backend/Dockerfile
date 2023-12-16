@@ -3,7 +3,7 @@ FROM mysql:latest as db
 ENV MYSQL_ROOT_PASSWORD=1
 
 # Sao chép các tệp SQL khởi tạo vào container (nếu có)
-COPY ./init.sql /docker-entrypoint-initdb.d/
+COPY ./init-db/init.sql /docker-entrypoint-initdb.d/
 
 
 FROM golang:1.21.4-alpine as program

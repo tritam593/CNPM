@@ -2,26 +2,36 @@ package pkg
 
 import (
 	"app/pkg/controllers"
+	"os"
 	// "encoding/json"
 	// "github.com/gorilla/mux"
-	// // "log"
 	// "github.com/gin-gonic/gin"
 	// "net/http"
 )
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+
+	return fallback
+}
 
 func Run() {
 	var server = controllers.Server{}
 	var appConfig = controllers.AppConfig{}
 	var dbConfig = controllers.DBConfig{}
 
+	host := getEnv("APP_Host", "127.0.0.1")
 	appConfig.AppName = "GoToko"
 	appConfig.AppEnv = "development"
 	appConfig.AppPort = "9000"
-	appConfig.AppURL = "http://0.0.0.0:9000"
+	appConfig.AppURL = "http://" + host + ":9000"
 
-	dbConfig.DBHost = "database-service"
-	dbConfig.DBUser = "root"
-	dbConfig.DBPassword = "1"
+	// dbConfig.DBHost = "database-service"
+	dbConfig.DBHost = getEnv("DB_Host", "127.0.0.1")
+	dbConfig.DBUser = getEnv("DB_User", "tam")
+	dbConfig.DBPassword = getEnv("DB_Password", "1")
 	dbConfig.DBName = "ECOMMERCE"
 	dbConfig.DBPort = "3306"
 	dbConfig.DBDriver = "mysql"
@@ -29,7 +39,7 @@ func Run() {
 	// arg := flag.Arg(0)
 
 	server.Initialize(appConfig, dbConfig)
-	server.Run("0.0.0.0:" + appConfig.AppPort)
+	server.Run(host + ":" + appConfig.AppPort)
 	// server.Router = mux.NewRouter()
 	// router := gin.Default()
 	// router.GET("/", func(c *gin.Context) {

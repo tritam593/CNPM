@@ -7,7 +7,7 @@ import (
 
 type ProductImage struct {
 	ID         string `gorm:"size:36;not null;uniqueIndex;primary_key"`
-	ProductID  string `gorm:"size:36;index"`
+	ProductID  string `gorm:"foreignKey:ProductID"`
 	Path       string `gorm:"type:text"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time

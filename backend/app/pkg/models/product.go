@@ -3,6 +3,7 @@ package models
 import (
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
 )
@@ -10,7 +11,7 @@ import (
 type Product struct {
 	ID            string `gorm:"size:36;not null;uniqueIndex;primary_key"`
 	CategoryID    string `gorm:"foreignKey:CategoryID"`
-	ProductImages *ProductImage
+	ProductImages []ProductImage
 	Category      *Category
 	Sku           string          `gorm:"size:100;index"`
 	Name          string          `gorm:"size:255"`
@@ -27,8 +28,8 @@ type Product struct {
 func (p *Product) GetProducts(db *gorm.DB) (*[]Product, error) {
 	var err error
 	var products []Product
-
-	err = db.Debug().Preload("ProductImage").Model(&Product{}).Order("created_at desc").Find(&products).Error
+	// preload must be simillar to the attribute name in struct not the name of struct
+	err = db.Debug().Preload("ProductImages").Model(&Product{}).Order("created_at desc").Find(&products).Error
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +51,7 @@ func (p *Product) FindByID(db *gorm.DB, productID string) (*Product, error) {
 
 func (p *Product) CreateProduct(db *gorm.DB) error {
 	var err error
-
+	p.ID= uuid.New().String()
 	err = db.Debug().Create(&p).Error
 	if err != nil {
 		return err
