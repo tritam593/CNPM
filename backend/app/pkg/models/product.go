@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -51,7 +52,12 @@ func (p *Product) FindByID(db *gorm.DB, productID string) (*Product, error) {
 
 func (p *Product) CreateProduct(db *gorm.DB) error {
 	var err error
-	p.ID= uuid.New().String()
+	p.ID = uuid.New().String()
+	for _, img := range p.ProductImages {
+		img.BeforeCreate(db)
+		img.ProductID = p.ID
+	}
+	fmt.Println(p)
 	err = db.Debug().Create(&p).Error
 	if err != nil {
 		return err
@@ -66,7 +72,7 @@ func (p *Product) DeleteProduct(db *gorm.DB, productID string) (*Product, error)
 	return &pro, nil
 }
 
-func (p *Product) UpdateProduct(db *gorm.DB, catID string) (*Product, error) {
-	db.Debug().Model(&Product{}).Where("id = ?", catID).Updates(&p)
-	return p.FindByID(db, catID)
+func (p *Product) UpdateProduct(db *gorm.DB, productID string) (*Product, error) {
+	db.Debug().Model(&Product{}).Where("id = ?", productID).Updates(&p)
+	return p.FindByID(db, productID)
 }

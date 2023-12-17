@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
+
 )
 
 type OrderCustomer struct {
@@ -17,7 +17,7 @@ type OrderCustomer struct {
 	UpdatedAt time.Time
 }
 
-func (o *OrderCustomer) BeforeCreate(db *gorm.DB) error {
+func (o *OrderCustomer) BeforeCreate() error {
 	if o.ID == "" {
 		o.ID = uuid.New().String()
 	}

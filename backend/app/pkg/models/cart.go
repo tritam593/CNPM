@@ -1,6 +1,8 @@
 package models
 
 import (
+	
+
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
 )
@@ -16,16 +18,17 @@ func (c *Cart) GetCart(db *gorm.DB, userID string) (*Cart, error) {
 	var err error
 	var cart Cart
 
-	err = db.Debug().Preload("CartItems").
+	err = db.Debug().Preload("CartItems").Preload("CartItems.Product").
 		Model(Cart{}).Where("User_ID = ?", userID).First(&cart).Error
 	if err != nil {
 		return nil, err
 	}
+	cart_temp, err := cart.CalculateCart(db)
+	if err != nil {
+		return nil, err
+	}
 
-	cart_item, _ := c.GetItems(db, cart.ID)
-	cart.CartItems = cart_item
-
-	return &cart, nil
+	return cart_temp, nil
 }
 
 func (c *Cart) CreateCart(db *gorm.DB) (*Cart, error) {
@@ -41,20 +44,26 @@ func (c *Cart) CreateCart(db *gorm.DB) (*Cart, error) {
 func (c *Cart) CalculateCart(db *gorm.DB) (*Cart, error) {
 	cartBaseTotalPrice := 0.0
 	// Iterate through each cart item to calculate totals
+	item_temp := []CartItem{}
 	for _, item := range c.CartItems {
+		err := item.CalculateCartItem(db)
+		if err != nil {
+			return nil, err
+		}
 		itemBaseTotal, _ := item.BaseTotal.Float64()
 		cartBaseTotalPrice += itemBaseTotal
+		item_temp = append(item_temp, item)
 	}
 
 	var cart Cart
 
 	c.BaseTotalPrice = decimal.NewFromFloat(cartBaseTotalPrice)
-	err := db.Debug().First(&cart, "id = ?", c.ID).Updates(c).Error
+	err := db.Debug().First(&cart, "id = ?", c.ID).Updates(&c).Error
 
 	if err != nil {
 		return nil, err
 	}
-
+	cart.CartItems = item_temp
 	return &cart, nil
 }
 

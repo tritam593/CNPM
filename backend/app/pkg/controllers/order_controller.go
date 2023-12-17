@@ -50,3 +50,26 @@ func (server *Server) GetOrderByUserID(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
+
+func (server *Server) UpdateOrder(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	if vars["id"] == "" {
+		return
+	}
+	orderModel := &models.Order{}
+	utils.ParseBody(r, &orderModel)
+
+	order, err := orderModel.UpdateOrder(server.DB, vars["id"])
+	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Sorry, Something wrong when update order"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
+		return
+	}
+	res, _ := json.Marshal(&order)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+
+}

@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
+
 
 	// "fmt"
 	"net/http"
@@ -25,7 +25,7 @@ type status struct {
 }
 
 func (server *Server) DoLogin(w http.ResponseWriter, r *http.Request) {
-	user_temp := &user_login{}
+	user_temp := &models.User{}
 	utils.ParseBody(r, &user_temp)
 
 	userModel := models.User{}
@@ -42,7 +42,6 @@ func (server *Server) DoLogin(w http.ResponseWriter, r *http.Request) {
 
 	if !ComparePassword(user_temp.Password, user.Password) {
 		// SetFlash(w, r, "error", "email or password invalid")
-		fmt.Println("aaaaaaaa")
 		res, _ := json.Marshal(&status{Check: "email or password invalid"})
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -54,8 +53,11 @@ func (server *Server) DoLogin(w http.ResponseWriter, r *http.Request) {
 	session.Values["id"] = user.ID
 	session.Save(r, w)
 	// fmt.Println(session.Values["id"])
-
-	res, _ := json.Marshal(&status{Check: "ok"})
+	user_temp.ID = user.ID
+	user_temp.FirstName = user.FirstName
+	user_temp.LastName = user.LastName
+	user_temp.Address = user.Address
+	res, _ := json.Marshal(&user_temp)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)

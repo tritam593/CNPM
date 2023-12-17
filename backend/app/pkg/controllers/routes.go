@@ -36,4 +36,5 @@ func (server *Server) initializeRoutes() {
 
 	server.Router.HandleFunc("/orders", server.CreateOrder).Methods("POST")
 	server.Router.HandleFunc("/orders/{id}", server.GetOrderByUserID).Methods("GET")
+	server.Router.HandleFunc("/orders/{id}", server.UpdateOrder).Methods("PUT")
 }

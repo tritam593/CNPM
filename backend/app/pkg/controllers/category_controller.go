@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
-	
+
 	"net/http"
 
 	"app/pkg/models"
@@ -47,7 +47,7 @@ func (server *Server) GetCategoryByID(w http.ResponseWriter, r *http.Request) {
 	w.Write(res)
 }
 
-func (server *Server) DeleteCategory(w http.ResponseWriter, r *http.Request){
+func (server *Server) DeleteCategory(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	if vars["id"] == "" {
 		return
@@ -65,7 +65,7 @@ func (server *Server) DeleteCategory(w http.ResponseWriter, r *http.Request){
 	w.Write(res)
 }
 
-func (server *Server) GetCategories(w http.ResponseWriter, r *http.Request){
+func (server *Server) GetCategories(w http.ResponseWriter, r *http.Request) {
 	categoryModel := models.Category{}
 	category, err := categoryModel.GetCategories(server.DB)
 	if err != nil {
@@ -78,16 +78,16 @@ func (server *Server) GetCategories(w http.ResponseWriter, r *http.Request){
 	w.Write(res)
 }
 
-func (server *Server) UpdateCategory(w http.ResponseWriter, r *http.Request){
+func (server *Server) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	if vars["id"] == "" {
 		return
 	}
 
 	categoryModel := models.Category{}
-	utils.ParseBody(r,&categoryModel)
+	utils.ParseBody(r, &categoryModel)
 	// fmt.Println(categoryModel)
-	category, _  :=categoryModel.UpdateCategory(server.DB, vars["id"])
+	category, _ := categoryModel.UpdateCategory(server.DB, vars["id"])
 
 	res, _ := json.Marshal(&category)
 	w.Header().Set("Content-Type", "application/json")
