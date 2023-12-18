@@ -3,11 +3,11 @@
     "ProductImages": [
         {
             "ID":"",
-            "Path": "./fake-data/images/handbag/handbag2/túi xách xanh.png"
+            "Path": "./fake-data/images/handbag/handbag2/tui_xach_xanh.png"
         },
         {
             "ID":"",
-            "Path": "./fake-data/images/handbag/handbag2/túi xách xanh2.png"
+            "Path": "./fake-data/images/handbag/handbag2/tui_xach_xanh2.png"
         }
     ],
     "Name": "Medium Handbag",
