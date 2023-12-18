@@ -3,11 +3,11 @@
     "ProductImages": [
         {
             "ID":"",
-            "Path": "./fake-data/images/handbag/handbag1/tui_xach_hong.png"
+            "Path": "./data/images/handbag/handbag1/tui_xach_hong.png"
         },
         {
             "ID":"",
-            "Path": "../fake-data/images/handbag/handbag1/tui_xach_hong2.png"
+            "Path": "./data/images/handbag/handbag1/tui_xach_hong2.png"
         }
     ],
     "Name": "Pink Handbag",

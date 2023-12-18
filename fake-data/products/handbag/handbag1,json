@@ -3,11 +3,11 @@
     "ProductImages": [
         {
             "ID":"",
-            "Path": "./fake-data/images/handbag/handbag1/tui_xach_marina.png"
+            "Path": "./data/images/handbag/handbag1/tui_xach_marina.png"
         },
         {
             "ID":"",
-            "Path": "./fake-data/images/handbag/handbag1/tui_xach_marina2.png"
+            "Path": "./data/images/handbag/handbag1/tui_xach_marina2.png"
         }
     ],
     "Name": "Marina Mini Handbag",
