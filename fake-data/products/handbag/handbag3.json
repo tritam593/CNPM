@@ -1,0 +1,18 @@
+{
+    "CategoryID": "Handbag-VN00",
+    "ProductImages": [
+        {
+            "ID":"",
+            "Path": "./fake-data/images/handbag/handbag1/túi xách hồng.png"
+        },
+        {
+            "ID":"",
+            "Path": "../fake-data/images/handbag/handbag1/túi xách hoofng2.png"
+        }
+    ],
+    "Name": "Pink Handbag",
+    "Price": "1500",
+    "Weight": 0.6,
+    "Description": "A high-quality chair.",
+    "Status": 5
+}
