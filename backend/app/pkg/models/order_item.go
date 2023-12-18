@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 
 	"github.com/shopspring/decimal"
 )
@@ -21,7 +20,7 @@ type OrderItem struct {
 	UpdatedAt       time.Time
 }
 
-func (o *OrderItem) BeforeCreate(db *gorm.DB) error {
+func (o *OrderItem) BeforeCreate() error {
 	if o.ID == "" {
 		o.ID = uuid.New().String()
 	}

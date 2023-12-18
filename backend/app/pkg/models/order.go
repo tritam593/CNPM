@@ -1,10 +1,11 @@
 package models
 
 import (
+	"app/pkg/consts"
 	"database/sql"
+
 	"strconv"
 	"strings"
-	"app/pkg/consts"
 	"time"
 
 	"github.com/google/uuid"
@@ -48,8 +49,20 @@ func (o *Order) BeforeCreate(db *gorm.DB) error {
 }
 
 func (o *Order) CreateOrder(db *gorm.DB) (*Order, error) {
+	
 	o.OrderDate = time.Now()
 	o.PaymentDue = time.Now().AddDate(0, 0, 7)
+
+	o.OrderCustomer = &OrderCustomer{}
+	o.OrderCustomer.BeforeCreate()
+
+	o.OrderCustomer.OrderID = o.ID
+	o.OrderCustomer.UserID = o.UserID
+	
+	for index := 0; index < len(o.OrderItems); index++ {
+		o.OrderItems[index].BeforeCreate()
+		o.OrderItems[index].OrderID = o.ID
+	}
 	result := db.Debug().Create(&o)
 	if result.Error != nil {
 		return nil, result.Error
@@ -61,7 +74,6 @@ func (o *Order) CreateOrder(db *gorm.DB) (*Order, error) {
 func (o *Order) FindByUserID(db *gorm.DB, UserID string) (*Order, error) {
 
 	err := db.Debug().
-		Preload("OrderCustomer").
 		Preload("OrderItems").
 		Preload("OrderItems.Product").
 		Preload("User", func(tx *gorm.DB) *gorm.DB {
@@ -69,6 +81,15 @@ func (o *Order) FindByUserID(db *gorm.DB, UserID string) (*Order, error) {
 		}).
 		Model(&Order{}).Where("User_ID = ?", UserID).
 		First(&o).Error
+	if err != nil {
+		return nil, err
+	}
+	return o, nil
+}
+
+func (o *Order) UpdateOrder(db *gorm.DB, orderID string) (*Order, error) {
+	err := db.Debug().Model(&Order{}).Where("id = ?", orderID).Updates(&o).Error
+
 	if err != nil {
 		return nil, err
 	}
@@ -108,16 +129,17 @@ func generateOrderNumber(db *gorm.DB) string {
 	var latestOrder Order
 
 	err := db.Debug().Order("created_at DESC").Find(&latestOrder).Error
-
+	
 	latestNumber, _ := strconv.Atoi(strings.Split(latestOrder.Code, "/")[0])
+	
 	if err != nil {
 		latestNumber = 1
 	}
 
 	number := latestNumber + 1
-
+	
 	invoiceNumber := strconv.Itoa(number) + dateCode
-
+	
 	return invoiceNumber
 }
 

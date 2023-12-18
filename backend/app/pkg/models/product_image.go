@@ -2,6 +2,8 @@ package models
 
 import (
 	"time"
+
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -11,6 +13,13 @@ type ProductImage struct {
 	Path       string `gorm:"type:text"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
+}
+
+func (o *ProductImage) BeforeCreate(db *gorm.DB) error {
+	if o.ID == "" {
+		o.ID = uuid.New().String()
+	}
+	return nil
 }
 
 func (img *ProductImage) CreateProductImg(db *gorm.DB) (*ProductImage,error) {
