@@ -1,5 +1,5 @@
 # test-gitaction
-
+<!-- docker run -d --name "mysql-container" -p 3000:3306 database-mysql -->
 ![Docker build status](https://github.com/tritam593/se15.1/actions/workflows/docker-image.yml/badge.svg)
 ![K8s build status](https://github.com/tritam593/se15.1/actions/workflows/k8s.yml/badge.svg)
 

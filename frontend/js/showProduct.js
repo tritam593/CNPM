@@ -2,18 +2,16 @@ const container = document.querySelector(".pro-container");
 
 const jsonFile = "../products.json";
 fetch(jsonFile)
-	.then((response) => {
-		return response.json();
-	})
-	.then((data) => {
-		data.forEach((product) => {
-            const { ProductImages, Name, Price } = product;
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        data.forEach((product) => {
+        const { ProductImages, Name, Price } = product;
 
-            // Tạo các div .pro cho mỗi hình ảnh trong mảng ProductImages
-            ProductImages.forEach((image) => {
-                container.innerHTML +=`
+                container.innerHTML += `
                 <div class="pro" onclick="window.location.href='sproduct.html'">
-                    <img src="${image.Path}" alt="Product Image">
+                    <img src="${ProductImages[0].Path}" alt="Product Image">
                     <div class="des">
                         <span>adidas</span>
                         <h5>${Name}</h5>
@@ -29,6 +27,8 @@ fetch(jsonFile)
                     <a href="#" class="cart"><i class="fa-solid fa-cart-shopping"></i></a>
                 </div>
                 `;
-            });
+
+                
         });
-    });
+});
+

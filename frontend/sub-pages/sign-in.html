@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../css/shop.css" />
     <link rel="stylesheet" href="../css/sign-in.css" />
     <link rel="stylesheet" href="../css/sign-up.css" />
+    <script src="../js/nav.js"></script>
     <script defer src="../js/sign.js"></script>
   </head>
 <body>
@@ -25,8 +26,10 @@
                 <li><a  href="../index.html">Home</a></li>
                 <li><a  href="../sub-pages/shop.html">Shop</a></li>
                 <li><a  href="../sub-pages/blog.html">Blog</a></li>
-                <li><a class="active" href="../sub-pages/sign-in.html">Sign in</a></li>
-                <li><a href="../sub-pages/sign-up.html">Sign up</a></li>
+                <!-- <li id="sign-in"><a href="./sub-pages/sign-in.html">Sign in</a></li>
+                <li id="sign-up"><a href="./sub-pages/sign-up.html">Sign up</a></li>
+                <li id="lg-user"><a href=""><i class="far fa-user"></i></a></li>
+                <li id="logout"><a href="">Logout</a></li> -->
                 <li class="lg-bag"><a href="../sub-pages/cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
                 <a href="#" id="close"><i class="fa-solid fa-xmark"></i></a>
             </ul>
@@ -38,12 +41,12 @@
         </div>
     </section>
 
-    <section id="sign-in">
+    <section id="signin">
         <div class="container">
           <form id="form" action="/">
-              <h1>Sign in</h1>
+              <h1>Sign In</h1>
               <div class="input-control">
-                  <label for="username">Username</label>
+                  <label for="username">Email</label>
                   <input id="username" name="username" type="text">
                   <div class="error"></div>
               </div>
@@ -54,7 +57,7 @@
                   <div class="error"></div>
               </div>
               
-              <button class="normal" type="submit">Sign Up</button>
+              <button class="normal" type="submit">Sign In</button>
           </form>
       </div>
       </section>
@@ -112,5 +115,6 @@
         </div>
     </footer>
    <script src="../js/responsiveHome.js"></script>
+   
 </body>
 </html>
