@@ -11,6 +11,10 @@ FROM golang:1.21.4-alpine as program
 WORKDIR /app
 COPY ./app ./
 
+ENV DB_Host=database-service
+ENV DB_User=root
+ENV DB_Password=1
+ENV APP_Host=0.0.0.0
 # RUN go mod download
 
 

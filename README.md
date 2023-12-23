@@ -14,7 +14,7 @@ cd frontend
 docker build -t frontend-flask .
 cd ..
 
-docker build . --file ./backend/Dockerfile --tag backend-flask
+docker build -t backend-golang --target program .
 ```
 
 

@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"app/pkg/controllers"
+	"fmt"
 	"os"
 	// "encoding/json"
 	// "github.com/gorilla/mux"
@@ -35,6 +36,8 @@ func Run() {
 	dbConfig.DBName = "ECOMMERCE"
 	dbConfig.DBPort = "3306"
 	dbConfig.DBDriver = "mysql"
+
+	fmt.Println(dbConfig.DBHost + "=====", dbConfig.DBUser + "====" + dbConfig.DBPassword)
 
 	// arg := flag.Arg(0)
 
