@@ -12,6 +12,7 @@ import (
 type User struct {
 	ID            string `gorm:"size:36;not null;uniqueIndex;primary_key"`
 	Address       string
+	Carts         *Cart
 	FirstName     string `gorm:"size:100;not null"`
 	LastName      string `gorm:"size:100;not null"`
 	Email         string `gorm:"size:100;not null;uniqueIndex"`
@@ -68,8 +69,18 @@ func (u *User) CreateUser(db *gorm.DB) (*User, error) {
 
 func (u *User) RemoveUser(db *gorm.DB, userID string) (*User, error) {
 	var user User
+	err := db.Debug().Preload("Carts").
+		Model(&User{}).Where("ID=?", userID).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+
+	user.Carts.ClearCart(db)
+	order := &Order{}
+	order.DeleteOrder(db, userID)
+	
 	db.Model(&User{}).Where("ID=?", userID).Unscoped().Delete(&user)
-	db.Debug().Model(&Cart{}).Where("User_ID=?", userID).Unscoped().Delete(&Cart{})
+
 	return &user, nil
 }
 

@@ -3,11 +3,10 @@ package controllers
 import (
 	"encoding/json"
 
-
 	// "fmt"
-	"net/http"
 	"app/pkg/models"
 	"app/pkg/utils"
+	"net/http"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -32,8 +31,8 @@ func (server *Server) DoLogin(w http.ResponseWriter, r *http.Request) {
 	user, err := userModel.FindByEmail(server.DB, user_temp.Email)
 	if err != nil {
 		// SetFlash(w, r, "error", "email or password invalid")
-		
-		res, _ := json.Marshal(&status{Check: "email or password invalid"})
+
+		res, _ := json.Marshal(&status{Check: "Error"})
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(res)
@@ -42,7 +41,7 @@ func (server *Server) DoLogin(w http.ResponseWriter, r *http.Request) {
 
 	if !ComparePassword(user_temp.Password, user.Password) {
 		// SetFlash(w, r, "error", "email or password invalid")
-		res, _ := json.Marshal(&status{Check: "email or password invalid"})
+		res, _ := json.Marshal(&status{Check: "Error"})
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(res)
@@ -126,7 +125,14 @@ func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	userModel := models.User{}
-	userModel.RemoveUser(server.DB, vars["id"])
+	_, err := userModel.RemoveUser(server.DB, vars["id"])
+	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Error"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
+		return
+	}
 	session, _ := store.Get(r, sessionUser)
 
 	session.Values["id"] = nil
@@ -150,7 +156,14 @@ func (server *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if userModel.Password != "" {
 		userModel.Password, _ = MakePassword(userModel.Password)
 	}
-	user, _ := userModel.UpdateUser(server.DB, vars["id"])
+	user, err := userModel.UpdateUser(server.DB, vars["id"])
+	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Error"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
+		return
+	}
 
 	res, _ := json.Marshal(&user)
 	w.Header().Set("Content-Type", "application/json")
@@ -166,7 +179,14 @@ func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	userModel := models.User{}
 	// fmt.Println(userModel)
-	user, _ := userModel.FindByID(server.DB, vars["id"])
+	user, err := userModel.FindByID(server.DB, vars["id"])
+	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Error"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
+		return
+	}
 
 	res, _ := json.Marshal(&user)
 	w.Header().Set("Content-Type", "application/json")

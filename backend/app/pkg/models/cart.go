@@ -18,8 +18,12 @@ func (c *Cart) GetCart(db *gorm.DB, userID string) (*Cart, error) {
 	var err error
 	var cart Cart
 
-	err = db.Debug().Preload("CartItems").Preload("CartItems.Product").
-		Model(Cart{}).Where("User_ID = ?", userID).First(&cart).Error
+	err = db.Debug().Preload("CartItems").
+	Preload("CartItems.Product").
+	Preload("CartItems.Product.ProductImages").
+	Preload("CartItems.Product.Category").
+	Model(Cart{}).Where("User_ID = ?", userID).First(&cart).Error
+	
 	if err != nil {
 		return nil, err
 	}
@@ -140,16 +144,16 @@ func (c *Cart) RemoveItemByID(db *gorm.DB, itemID string) (*CartItem, error) {
 	return &item, nil
 }
 
-// func (c *Cart) ClearCart(db *gorm.DB, cartID string) error {
-// 	err := db.Debug().Where("cart_id = ?", cartID).Delete(&CartItem{}).Error
-// 	if err != nil {
-// 		return err
-// 	}
+func (c *Cart) ClearCart(db *gorm.DB) error {
+	err := db.Debug().Where("cart_id = ?", c.ID).Unscoped().Delete(&CartItem{}).Error
+	if err != nil {
+		return err
+	}
 
-// 	err = db.Debug().Where("id = ?", cartID).Delete(&Cart{}).Error
-// 	if err != nil {
-// 		return err
-// 	}
+	err = db.Debug().Where("id = ?", c.ID).Unscoped().Delete(&Cart{}).Error
+	if err != nil {
+		return err
+	}
 
-// 	return nil
-// }
+	return nil
+}

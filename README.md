@@ -15,15 +15,16 @@ docker build -t frontend-flask .
 cd ..
 
 docker build -t backend-golang --target program .
+docker build -t mysql-db --target db .
 ```
 
 
 Start
 ```
-kubectl apply -f backend/backend-deployment.yaml 
-kubectl apply -f backend/backend-service.yaml 
-kubectl apply -f frontend/frontend-deployment.yaml 
-kubectl apply -f frontend/frontend-service.yaml 
+kubectl apply -f backend-deployment.yaml 
+kubectl apply -f backend-service.yaml 
+kubectl apply -f database-deployment.yaml 
+kubectl apply -f database-service.yaml 
 ```
 Run
 
