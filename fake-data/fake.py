@@ -89,8 +89,8 @@ def create_order(data):
     return
 
 def main():
-    # create_category(categories)
-    # create_product(products)
+    create_category(categories)
+    create_product(products)
     data = {
                 "email" : "aaa@a.a",
                 "password" : "b"

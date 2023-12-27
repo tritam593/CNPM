@@ -16,7 +16,7 @@ services:
     
     healthcheck:
       test: ["CMD", "echo", "112345"]
-      interval: 120s
-      timeout: 120s
+      interval: 100s
+      timeout: 100s
       retries: 1
     

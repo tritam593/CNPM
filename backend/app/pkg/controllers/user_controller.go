@@ -67,6 +67,9 @@ func (server *Server) DoLogin(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) DoRegister(w http.ResponseWriter, r *http.Request) {
 
+	// w.Header().Set("Access-Control-Allow-Origin", "*")
+	// w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+
 	userModel := &models.User{}
 	utils.ParseBody(r, userModel)
 	userModel.ID = uuid.New().String()

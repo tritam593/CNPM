@@ -8,6 +8,7 @@ import (
 
 	"app/pkg/models"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"golang.org/x/crypto/bcrypt"
@@ -81,7 +82,12 @@ func (server *Server) Initialize(appConfig AppConfig, dbConfig DBConfig) {
 
 func (server *Server) Run(addr string) {
 	fmt.Printf("Listening to port %s", addr)
-	log.Fatal(http.ListenAndServe(addr, server.Router))
+
+	log.Fatal(http.ListenAndServe(addr, handlers.CORS(
+		handlers.AllowedOrigins([]string{"*"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+		handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+		)(server.Router)))
 }
 
 func (server *Server) initializeDB(dbConfig DBConfig) {
@@ -151,7 +157,6 @@ func GetPaginationLinks(config *AppConfig, params PaginationParams) (PaginationL
 		Links:       links,
 	}, nil
 }
-
 
 func SetFlash(w http.ResponseWriter, r *http.Request, name string, value string) {
 	session, err := store.Get(r, sessionFlash)
