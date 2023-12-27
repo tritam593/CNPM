@@ -6,6 +6,8 @@
 Clone the repo
 ```
 git clone https://github.com/tritam593/se15.1.git
+
+python3 -m unittest tests.test_user
 ```
 
 ```
