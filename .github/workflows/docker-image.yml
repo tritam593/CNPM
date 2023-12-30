@@ -19,10 +19,14 @@ jobs:
         docker build -t backend-golang --target program .
         docker build -t mysql-db --target db .
       working-directory: ./backend
+    
+    - name: test
+      run: pwd
 
     - name: Run backend docker to test
       run : |
         docker-compose up
+      working-directory: ../
 
     
     - name: Set up Python 3.10
