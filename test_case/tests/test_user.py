@@ -13,6 +13,7 @@ class TestUser(unittest.TestCase):
         response = cls.user.register()
         print(response)
         assert 1 == len(response)
+        assert "Check" in (response.keys())
         assert "ok" == response["Check"]
         print("set up class")
 
@@ -25,6 +26,7 @@ class TestUser(unittest.TestCase):
         response = cls.user.delete_user(cls.user.id)
         print(response)
         assert 1 == len(response)
+        assert "Check" in (response.keys())
         assert "ok" == response["Check"]
         print("tear down class")
 
@@ -42,6 +44,7 @@ class TestUser(unittest.TestCase):
         response = self.user.register()
         print("test register\n", response)
         self.assertEqual(1, len(response))
+        self.assertTrue("Check" in (response.keys()))
         self.assertNotEqual("ok", response["Check"])
 
     # account is not exist
@@ -50,6 +53,7 @@ class TestUser(unittest.TestCase):
         response = user_temp.login()
         print("test login\n", response)
         self.assertEqual(1, len(response))
+        self.assertTrue("Check" in (response.keys()))
         self.assertNotEqual("ok", response["Check"])
 
     def test_logout(self):
@@ -59,19 +63,32 @@ class TestUser(unittest.TestCase):
         self.assertTrue(self.user.is_login is False)
 
     def test_delete_user(self):
-        # Cho mục đích minh họa, chạy phương thức delete_user không có logic thực tế ở đây
+        # Cho mục đích minh họa, chạy phương thức delete_user không có thực
         response = self.user.delete_user("12345454")
         self.assertEqual(1, len(response))
+        self.assertTrue("Check" in (response.keys()))
         self.assertTrue(response["Check"] == "Error")
 
-    def test_update_user(self):
+    def test_update_user_01(self):
         response = self.user.update_user(user_id=self.user.id,
                                new_password="newpassword",
                                  new_last_name="NewName",
                                    new_first_name= "NewFirstName")
-        print("test update user \n", response)
+        print("test update user 01 \n", response)
         print(self.user.id)
         self.assertTrue(len(response) > 1)
+
+    # update user not in database 
+    def test_update_user_02(self):
+        response = self.user.update_user(user_id="1214323",
+                               new_password="newpassword",
+                                 new_last_name="NewName",
+                                   new_first_name= "NewFirstName")
+        print("test update user 02 \n", response)
+        self.assertTrue(len(response) == 1)
+        self.assertTrue("Check" in (response.keys()))
+        self.assertTrue(response["Check"] == "Error")
+
 
     # get infor of a user
     def test_get_user_01(self):

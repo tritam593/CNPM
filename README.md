@@ -33,9 +33,9 @@ server.Router.HandleFunc("/login", server.DoLogin).Methods("POST")
 	server.Router.HandleFunc("/product-img/{id}", server.CreateImageByProductID).Methods("POST")
 	server.Router.HandleFunc("/product-img/{id}", server.DeleteImageByProductID).Methods("DELETE")
 
-	server.Router.HandleFunc("/carts/{id}", server.GetCart).Methods("GET")
+	server.Router.HandleFunc("/carts/{id}", server.GetCart).Methods("GET") // id của user 
 	server.Router.HandleFunc("/carts", server.AddItem).Methods("POST")
-	server.Router.HandleFunc("/carts/{id}", server.DeleteItem).Methods("DELETE")
+	server.Router.HandleFunc("/carts/{id}", server.DeleteItem).Methods("DELETE") // id của cart item 
 
 	server.Router.HandleFunc("/orders", server.CreateOrder).Methods("POST")
 	server.Router.HandleFunc("/orders/{id}", server.GetOrderByUserID).Methods("GET")
