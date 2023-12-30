@@ -48,4 +48,5 @@ jobs:
     - name: Stop docker compose
       run : |
         docker compose stop
+      working-directory: ./backend
   
