@@ -19,9 +19,34 @@ jobs:
         docker build -t backend-golang --target program .
         docker build -t mysql-db --target db .
       working-directory: ./backend
+
+    - name: Show images 
+      run: docker images
     
-    # - name: test
-    #   run: pwd
+    - name: Run backend docker to test
+      run : |
+        docker-compose up -d
+      working-directory: ./backend
+    
+    - name: Show container
+      run: docker ps
+
+    - name: Stop docker compose
+      run : |
+        docker compose stop
+      working-directory: ./backend
+
+  run-test:
+    needs: build-docker
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the backend Docker image
+      run: |
+        docker build -t backend-golang --target program .
+        docker build -t mysql-db --target db .
+      working-directory: ./backend
 
     - name: Run backend docker to test
       run : |
