@@ -1,0 +1,107 @@
+{
+    "ID": "0f36df0f-9dab-4ec8-82cc-4399c15def2b",
+    "CartItems": [
+        {
+            "ID": "611b572e-ca24-4bb5-9cff-0dfe23e52bea",
+            "CartID": "0f36df0f-9dab-4ec8-82cc-4399c15def2b",
+            "Product": {
+                "ID": "df64bd0d-809a-4321-93b9-8551552d17b4",
+                "CategoryID": "mouse-123",
+                "ProductImages": [
+                    {
+                        "ID": "7395ee10-20c0-44c8-862d-7a99fbd05ff9",
+                        "ProductID": "df64bd0d-809a-4321-93b9-8551552d17b4",
+                        "Path": "./data/images/keyboard/mouse1/mouse_1_1.jpg",
+                        "CreatedAt": "2023-12-24T18:04:13.352+07:00",
+                        "UpdatedAt": "2023-12-24T18:04:13.352+07:00"
+                    },
+                    {
+                        "ID": "d9370dc8-77e8-48d3-9005-f53722614071",
+                        "ProductID": "df64bd0d-809a-4321-93b9-8551552d17b4",
+                        "Path": "./data/images/keyboard/mouse1/mouse_1_2.jpg",
+                        "CreatedAt": "2023-12-24T18:04:13.352+07:00",
+                        "UpdatedAt": "2023-12-24T18:04:13.352+07:00"
+                    }
+                ],
+                "Category": {
+                    "ID": "mouse-123",
+                    "Products": null,
+                    "Name": "Mouse",
+                    "Slug": "",
+                    "CreatedAt": "2023-12-24T18:04:12.539+07:00",
+                    "UpdatedAt": "2023-12-24T18:04:12.539+07:00"
+                },
+                "Cartitems": null,
+                "OrderItems": null,
+                "Sku": "",
+                "Name": "mouse 1",
+                "Price": "300",
+                "Stock": 0,
+                "Weight": "0.1",
+                "Description": "A high-quality mouse for people.",
+                "Status": 1,
+                "CreatedAt": "2023-12-24T18:04:13.35+07:00",
+                "UpdatedAt": "2023-12-24T18:04:13.35+07:00",
+                "DeletedAt": null
+            },
+            "ProductID": "df64bd0d-809a-4321-93b9-8551552d17b4",
+            "Qty": 10,
+            "BasePrice": "300",
+            "BaseTotal": "3000",
+            "CreatedAt": "2023-12-24T18:04:13.568+07:00",
+            "UpdatedAt": "2023-12-24T18:08:15.31+07:00"
+        },
+        {
+            "ID": "d32a76e1-d3e9-4888-9e8b-a34269201476",
+            "CartID": "0f36df0f-9dab-4ec8-82cc-4399c15def2b",
+            "Product": {
+                "ID": "9c918c01-4694-462d-a17d-0004850c4fbd",
+                "CategoryID": "table-123",
+                "ProductImages": [
+                    {
+                        "ID": "7f0a97fc-518e-4ce9-8406-881a9bd5b733",
+                        "ProductID": "9c918c01-4694-462d-a17d-0004850c4fbd",
+                        "Path": "./data/images/table/table2/i2.jpg",
+                        "CreatedAt": "2023-12-24T18:04:13.193+07:00",
+                        "UpdatedAt": "2023-12-24T18:04:13.193+07:00"
+                    },
+                    {
+                        "ID": "9df124b3-ac24-47a3-a5d0-db7af40cd28a",
+                        "ProductID": "9c918c01-4694-462d-a17d-0004850c4fbd",
+                        "Path": "./data/images/table/table2/i1.jpg",
+                        "CreatedAt": "2023-12-24T18:04:13.193+07:00",
+                        "UpdatedAt": "2023-12-24T18:04:13.193+07:00"
+                    }
+                ],
+                "Category": {
+                     "ID": "table-123",
+                    "Products": null,
+                    "Name": "Table",
+                    "Slug": "",
+                    "CreatedAt": "2023-12-24T18:04:12.634+07:00",
+                    "UpdatedAt": "2023-12-24T18:04:12.634+07:00"
+                },
+                "Cartitems": null,
+                "OrderItems": null,
+                "Sku": "",
+                "Name": "table 2",
+                "Price": "500",
+                "Stock": 0,
+                "Weight": "1",
+                "Description": "A high-quality table for people.",
+                "Status": 1,
+                "CreatedAt": "2023-12-24T18:04:13.192+07:00",
+                "UpdatedAt": "2023-12-24T18:04:13.192+07:00",
+                "DeletedAt": null
+            },
+            "ProductID": "9c918c01-4694-462d-a17d-0004850c4fbd",
+            "Qty": 10,
+            "BasePrice": "500",
+            "BaseTotal": "5000",
+            "CreatedAt": "2023-12-24T18:05:11.249+07:00",
+            "UpdatedAt": "2023-12-24T18:08:15.333+07:00"
+        }
+    ],
+    "UserID": "d663fcd1-63a0-4a3a-96fc-189b128ef8a3",
+    "BaseTotalPrice": "8000"
+}
