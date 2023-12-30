@@ -1,8 +1,8 @@
-name: Docker Image CI
+name: Docker CI/CD for server
 
 on:
   push:
-    branches: ["main", "tam-backend-golang" ]
+    branches: ["main", "tam-k8s-docker-CI-CD" ]
   pull_request:
     branches: [ "main" ]
 
@@ -22,18 +22,8 @@ jobs:
 
     - name: Run backend docker to test
       run : |
-        docker run --name test-flask -d -p 5000:5000 backend-flask
+        docker-compose up
 
-    - name: Build frontend docker
-      run: |
-        
-        cd frontend
-        docker build -t frontend-flask .
-        cd ..
-
-    - name: Run frontend docker
-      run: |
-        docker run --name test-front -d -p 8000:80 frontend-flask
     
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -45,13 +35,13 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: test api
+    - name: run test case
       run : |
-        python3 test_api.py 
+        python3 -m unittest tests.test_user
+      working-directory: ./test_case
 
 
-    - name: Stop container
+    - name: Stop docker compose
       run : |
-        docker stop test-flask
-        docker stop test-front
+        docker compose stop
   
