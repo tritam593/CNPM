@@ -10,6 +10,7 @@
 
 #prodetails .single-pro-img{
     width: 40%;
+    
     margin-right: 50px;
 }
 
@@ -18,6 +19,8 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+
 
 .small-img-col{
     flex-basis: 24%;

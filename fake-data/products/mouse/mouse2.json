@@ -3,11 +3,11 @@
     "ProductImages": [
         {
             "ID":"",
-            "Path": "./data/images/keyboard/mouse2/mouse_2_1.jpg"
+            "Path": "./data/images/mouse/mouse2/mouse_2_1.jpg"
         },
         {
             "ID":"",
-            "Path": "./data/images/keyboard/mouse2/mouse_2_2.jpg"
+            "Path": "./data/images/mouse/mouse2/mouse_2_2.jpg"
         }
     ],
     "Name": "mouse 2",

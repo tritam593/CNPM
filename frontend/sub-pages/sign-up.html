@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact</title>
     <link rel="shortcut icon" href="../assets/icon.png" type="image/.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/responsiveHome.css" />
     <link rel="stylesheet" href="../css/blog.css" />
     <link rel="stylesheet" href="../css/shop.css" />
     <link rel="stylesheet" href="../css/sign-in.css" />
     <link rel="stylesheet" href="../css/sign-up.css" />
-    <script defer src="../js/sign.js"></script>
+    <!-- <script defer src="../js/sign_valid.js"></script> -->
     <script src="../js/nav.js"></script>
+    <script src="../js/sign_up.js"></script>
     
   </head>
   <body>
@@ -53,31 +56,39 @@
             
             <div class="input-control">
                 <label for="email">Email</label>
-                <input id="email" name="email" type="text">
+                <input id="email" type="text">
                 <div class="error"></div>
             </div>
             <div class="input-control">
               <label for="username">Frist name</label>
-              <input id="username" name="username" type="text">
+              <input id="fname"  type="text">
               <div class="error"></div>
             </div>
             <div class="input-control">
               <label for="username">Last name</label>
-              <input id="username" name="username" type="text">
+              <input id="lname"  type="text">
               <div class="error"></div>
             </div>
             <div class="input-control">
+              <label for="username">Address</label>
+              <input id="addr" type="text">
+              <div class="error"></div>
+          </div>
+            <div class="input-control">
                 <label for="password">Password</label>
-                <input id="password"name="password" type="password">
+                <input id="password"  type="password">
                 <div class="error"></div>
             </div>
-            <div class="input-control">
+            <!-- <div class="input-control">
                 <label for="password2">Password again</label>
                 <input id="password2"name="password2" type="password">
                 <div class="error"></div>
-            </div>
-            <button class="normal" type="submit">Sign Up</button>
+            </div> -->
+            <button id="submit" class="normal" type="button" >Sign Up</button>
+            <p id="regis"></p>
+            <p id="result"></p>
         </form>
+        
     </div>
     </section>
     <section id="page-header" class="about-header">
