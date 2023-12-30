@@ -6,6 +6,13 @@ categories = "./categories/"
 images = "./images/"
 products = "./products/"
 link = "http://127.0.0.1:9000/"
+
+def create_user(account):
+    d = account.copy()
+    d["firstname"] = "aaa"
+    d["lastname"] = "nnnn"
+    r = requests.post('http://127.0.0.1:9000/register', json=d)
+    print(r.json())
 def create_category(path):
     dir_list = os.listdir(path)
     for i in dir_list:
@@ -89,12 +96,14 @@ def create_order(data):
     return
 
 def main():
-    create_category(categories)
-    create_product(products)
     data = {
                 "email" : "aaa@a.a",
                 "password" : "b"
             }
+    create_user(data)
+    create_category(categories)
+    create_product(products)
+    
     add_item_to_cart(data)
     create_order(data=data)
     return
