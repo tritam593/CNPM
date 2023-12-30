@@ -25,7 +25,7 @@ jobs:
 
     - name: Run backend docker to test
       run : |
-        docker-compose up
+        docker-compose up -d
       working-directory: ./backend
 
     
