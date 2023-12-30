@@ -14,6 +14,8 @@ type Product struct {
 	CategoryID    string `gorm:"foreignKey:CategoryID"`
 	ProductImages []ProductImage
 	Category      *Category
+	Cartitems     []CartItem
+	OrderItems    []OrderItem
 	Sku           string          `gorm:"size:100;index"`
 	Name          string          `gorm:"size:255"`
 	Price         decimal.Decimal `gorm:"type:decimal(16,2);"`
@@ -57,7 +59,7 @@ func (p *Product) CreateProduct(db *gorm.DB) error {
 		img.BeforeCreate(db)
 		img.ProductID = p.ID
 	}
-	fmt.Println(p)
+
 	err = db.Debug().Create(&p).Error
 	if err != nil {
 		return err
@@ -68,7 +70,40 @@ func (p *Product) CreateProduct(db *gorm.DB) error {
 
 func (p *Product) DeleteProduct(db *gorm.DB, productID string) (*Product, error) {
 	var pro Product
-	db.Model(&Product{}).Where("ID=?", productID).Unscoped().Delete(&pro)
+	// var img []ProductImage
+	// var cart_item CartItem
+	// var order_item OrderItem
+
+	err := db.Debug().Preload("ProductImages").
+		Preload("OrderItems").
+		Preload("Cartitems").
+		Model(&Product{}).Where("ID=?", productID).First(&pro).Error
+	if err != nil {
+		return nil, err
+	}
+
+	// db.Debug().Model(&CartItem{}).Where("product_id = ?", productID).Unscoped().Delete(&cart_item)
+	// db.Debug().Model(&OrderItem{}).Where("product_id = ?", productID).Unscoped().Delete(&order_item)
+	// db.Debug().Model(&ProductImage{}).Where("product_id = ?", productID).Unscoped().Delete(&img)
+	// fmt.Println(pro)
+	fmt.Println(len(pro.ProductImages) == 0)
+	if len(pro.Cartitems) != 0 {
+		db.Debug().Unscoped().Delete(&pro.Cartitems)
+	}
+
+	if len(pro.OrderItems) != 0 {
+		db.Debug().Unscoped().Delete(&pro.OrderItems)
+	}
+
+	if len(pro.ProductImages) != 0 {
+		db.Debug().Unscoped().Delete(&pro.ProductImages)
+	}
+	
+	// db.Debug().Unscoped().Delete(&pro.OrderItems)
+	// db.Debug().Unscoped().Delete(&pro.ProductImages)
+	
+	db.Debug().Unscoped().Delete(&pro)
+
 	return &pro, nil
 }
 

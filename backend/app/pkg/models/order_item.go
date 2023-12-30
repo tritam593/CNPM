@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 
 	"github.com/shopspring/decimal"
 )
@@ -27,3 +28,12 @@ func (o *OrderItem) BeforeCreate() error {
 
 	return nil
 }
+
+func (o *OrderItem) DeleteOrderItem(db *gorm.DB, orderID string) error{
+	err := db.Debug().Model(&OrderItem{}).Where("order_id = ?", orderID).Unscoped().Delete(&o).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+

@@ -1,0 +1,22 @@
+services:
+  backend:
+    image: "backend-golang:latest"
+    ports:
+      - 9000:9000
+
+    depends_on:
+      database-service:
+        condition : service_healthy
+
+    
+  database-service:
+    image: "mysql-db:latest"
+    ports:
+      - 3306
+    
+    healthcheck:
+      test: ["CMD", "echo", "112345"]
+      interval: 80s
+      timeout: 80s
+      retries: 1
+    

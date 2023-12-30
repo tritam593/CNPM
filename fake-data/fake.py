@@ -34,7 +34,7 @@ def add_item_to_cart(data):
     user_id = r.json()["ID"]
     r = requests.get(url = f'{link}carts/{user_id}')
 
-    products = requests.get(f"{link}products").json()[:4]
+    products = requests.get(f"{link}products").json()
     cart = r.json()
     n = random.randint(1, len(products))
 
@@ -89,13 +89,13 @@ def create_order(data):
     return
 
 def main():
-    # create_category(categories)
-    # create_product(products)
+    create_category(categories)
+    create_product(products)
     data = {
                 "email" : "aaa@a.a",
                 "password" : "b"
             }
-    # add_item_to_cart(data)
+    add_item_to_cart(data)
     create_order(data=data)
     return
 
