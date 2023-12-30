@@ -61,6 +61,13 @@
 #cart table td {
     font-size: 13px;
 }
+#Qty-box{
+    margin:auto;
+    width: 15px; 
+    height: 15px;
+    justify-content: center;
+    text-align: center; 
+}
 .img-box{
     margin:auto;
     width: 50px; 
@@ -75,6 +82,7 @@
     max-width: 50px;
     max-height: 50px;
 }
+
 .fa-circle-xmark:hover{
     color: #333;
 }
