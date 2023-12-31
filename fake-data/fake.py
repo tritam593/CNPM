@@ -13,6 +13,7 @@ def create_user(account):
     d["lastname"] = "nnnn"
     r = requests.post('http://127.0.0.1:9000/register', json=d)
     print(r.json())
+
 def create_category(path):
     dir_list = os.listdir(path)
     for i in dir_list:
@@ -28,9 +29,10 @@ def create_product(path):
         path_1 = path+i +"/"
         for j in os.listdir(path_1):
             path_2 = path_1+j
+            print(path_2)
             f = open(path_2)
             data = json.load(f)
-            print(data)
+            # print(data)
             r = requests.post(f'{link}products', json=data)
             print(r.json())
             f.close
@@ -100,12 +102,12 @@ def main():
                 "email" : "aaa@a.a",
                 "password" : "b"
             }
-    create_user(data)
+    # create_user(data)
     create_category(categories)
     create_product(products)
     
-    add_item_to_cart(data)
-    create_order(data=data)
+    # add_item_to_cart(data)
+    # create_order(data=data)
     return
 
 if __name__ == "__main__":

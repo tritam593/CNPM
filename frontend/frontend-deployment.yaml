@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: frontend-flask
+        image: frontend
         # never pull the image policy
         imagePullPolicy: Never
         ports:
