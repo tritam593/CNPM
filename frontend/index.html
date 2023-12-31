@@ -1,80 +1,37 @@
-<!DOCTYPE html>
-<html>
 
 <head>
-  <meta charset="utf-8" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
 
+  
 
   <div>
-    <p>
-    <h1>Factorizer</h1>
-    </p>
-    <p>please enter your variable values assuming the div ax^2+bx+c</p>
-    <input type="text" id="a" placeholder="a" name="a" />
-    <input type="text" id="b" placeholder="b" name="b" />
-    <input type="text" id="c" placeholder="c" name="c" />
-    <button id="submit" type="button">submit</button>
-    <button id="check">check</button>
+      email : <input type="text" id="email" placeholder="a" name="a" />
+      password : <input type="text" id="pass" placeholder="b" name="b" />
+      add : <input type="text" id="add" placeholder="c" name="c" />
+      firstname : <input type="text" id="fname" placeholder="c" name="c" />
+      lastname : <input type="text" id="lname" placeholder="c" name="c" />
+  
+      <button id="submit" type="button">submit</button>
   </div>
-  <div id="result"></div>
-  <div id="test"></div>
 
-  <div id="test-golang"></div>
-  <script>
-    $(document).ready(function () {
-      $("#submit").click(function () {
-        var a_var = document.getElementById("a").value;
-        var b_var = document.getElementById("b").value;
-        var c_var = document.getElementById("c").value;
-        // Tạo một đối tượng JSON từ các giá trị
-        var data = {
-          a: a_var,
-          b: b_var,
-          c: c_var
-        };
+  <div>
+      register : <p id="regis"></p>
+      loging : <p id = "login"> data</p>
+      info : <p id = "info"> data</p>
+  </div>
 
-        document.getElementById("test").innerHTML = "ketqua = " + data["a"] + "   asdsa   " + a_var;
-        const url = "/factors/get"
-        $.ajax({
-          url: url,
-          type: "POST",
-          contentType: "application/json",
-          data: JSON.stringify(data),
-          success: function (response) {
-            // Handle JSON data from the response
-            $("#result").text("Result: " + response["ket qua"]);
-          },
-          error: function (xhr, status, error) {
-            // Display an error message if there's an issue with the request
-            $("#result").text("Fail: " + error.message);
-          }
-        });
-      });
+  <p id="test"></p>
+  data user : <p id="data-user"></p>
 
-      $("#check").click(function () {
-       
-        document.getElementById("test-golang").innerHTML = "ketqua = " + data["a"] + "   asdsa   " + a_var;
-        const url = "/products"
-        $.ajax({
-          url: url,
-          type: "GET",
-          success: function (response) {
-            // Handle JSON data from the response
-            $("#result").text("Result: " + response);
-          },
-          error: function (xhr, status, error) {
-            // Display an error message if there's an issue with the request
-            $("#result").text("Fail: " + error.message);
-          }
-        });
-      });
-    });
-  </script>
+  get data user : <p id="get-data-user"></p>
+  <form action="home.html" method="post" style="display: none;">
+      <input type="text" name="id" id="id_user">
+      <button type="submit" id="button"></button>
+  </form>
+  
+  <script type="text/javascript" src="./a.js"> </script>
 
 </body>
-
-</html>

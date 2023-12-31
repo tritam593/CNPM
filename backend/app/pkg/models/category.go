@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -42,7 +43,8 @@ func (c *Category) DeleteCategory(db *gorm.DB, CategoryID string) (*Category, er
 
 func (c *Category) GetCategoryByID(db *gorm.DB, CategoryID string) (*Category, error) {
 	var cat Category
-	db.Debug().Preload("Products").Find(&cat).Where("ID=?", CategoryID)
+	fmt.Println(CategoryID)
+	db.Debug().Preload("Products").Model(&Category{}).Where("ID=?", CategoryID).Find(&cat)
 	return &cat, nil
 }
 

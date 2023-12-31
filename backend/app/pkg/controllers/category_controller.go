@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"net/http"
 
@@ -34,6 +35,8 @@ func (server *Server) GetCategoryByID(w http.ResponseWriter, r *http.Request) {
 	if vars["id"] == "" {
 		return
 	}
+
+	fmt.Println(vars["id"])
 
 	categoryModel := models.Category{}
 	category, err := categoryModel.GetCategoryByID(server.DB, vars["id"])
