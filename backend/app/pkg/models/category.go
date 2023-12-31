@@ -44,7 +44,7 @@ func (c *Category) DeleteCategory(db *gorm.DB, CategoryID string) (*Category, er
 func (c *Category) GetCategoryByID(db *gorm.DB, CategoryID string) (*Category, error) {
 	var cat Category
 	fmt.Println(CategoryID)
-	db.Debug().Preload("Products").Model(&Category{}).Where("ID=?", CategoryID).Find(&cat)
+	db.Debug().Preload("Products").Preload("Products.ProductImages").Model(&Category{}).Where("ID=?", CategoryID).Find(&cat)
 	return &cat, nil
 }
 
