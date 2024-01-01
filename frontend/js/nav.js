@@ -19,10 +19,13 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("login: ", localStorage.getItem('ID'))
     
         var logoutButton = document.getElementById("logout");
+        
         if (logoutButton) {
             logoutButton.addEventListener('click', function () {
                 // Xóa trường ID từ localStorage khi người dùng logout
                 localStorage.removeItem('ID');
+                localStorage.removeItem("ID-Carts");
+                localStorage.removeItem("pro-id");
                 console.log("User logged out.");
 
                 // Thực hiện các bước khác cần thiết sau khi đăng xuất, nếu có

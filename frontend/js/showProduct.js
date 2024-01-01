@@ -41,6 +41,7 @@ $(document).ready(function () {
             console.log("fail");
         }
     });
+    
 });
 
 function redirectToSingleProductPage(productId) {
