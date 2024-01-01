@@ -1,13 +1,17 @@
-const form = document.getElementById('form');
-const username = document.getElementById('username');
-const email = document.getElementById('email');
-const password = document.getElementById('password');
-const password2 = document.getElementById('password2');
+var form = document.getElementById('form');
 
-form.addEventListener('submit', e => {
+var email = document.getElementById('email');
+var password = document.getElementById('password');
+var password2 = document.getElementById('password2');
+
+form.addEventListener('click', e => {
     e.preventDefault();
-
-    validateInputs();
+    if (isFormValid()) {
+        // Proceed with form submission or any other action
+        console.log('Form is valid. Submitting...');
+    } else {
+        console.log('Form is not valid. Please check your inputs.');
+    }
 });
 
 const setError = (element, message) => {
@@ -32,41 +36,33 @@ const isValidEmail = email => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }
-
-const validateInputs = () => {
-    const usernameValue = username.value.trim();
+const isFormValid = () => {
     const emailValue = email.value.trim();
     const passwordValue = password.value.trim();
     const password2Value = password2.value.trim();
 
-    if(usernameValue === '') {
-        setError(username, 'Username is required');
-    } else {
-        setSuccess(username);
-    }
-
-    if(emailValue === '') {
-        setError(email, 'Email is required');
-    } else if (!isValidEmail(emailValue)) {
+    if (emailValue === '' || !isValidEmail(emailValue)) {
         setError(email, 'Provide a valid email address');
+        return false;
     } else {
         setSuccess(email);
     }
 
-    if(passwordValue === '') {
-        setError(password, 'Password is required');
-    } else if (passwordValue.length < 8 ) {
-        setError(password, 'Password must be at least 8 character.')
+    if (passwordValue === '' || passwordValue.length < 8) {
+        setError(password, 'Password must be at least 8 characters.');
+        return false;
     } else {
         setSuccess(password);
     }
 
-    if(password2Value === '') {
-        setError(password2, 'Please confirm your password');
-    } else if (password2Value !== passwordValue) {
-        setError(password2, "Passwords doesn't match");
+    if (password2Value === '' || password2Value !== passwordValue) {
+        setError(password2, "Passwords don't match");
+        return false;
     } else {
         setSuccess(password2);
     }
 
+    // If all validations pass, return true
+    return true;
 };
+

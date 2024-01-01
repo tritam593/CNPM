@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="../css/shop.css" />
     <link rel="stylesheet" href="../css/sign-in.css" />
     <link rel="stylesheet" href="../css/sign-up.css" />
-    <!-- <script defer src="../js/sign_valid.js"></script> -->
+
     <script src="../js/nav.js"></script>
-    <script src="../js/sign_up.js"></script>
+    
     
   </head>
   <body>
@@ -51,46 +51,47 @@
     </section>
     <section id="signin">
       <div class="container">
-        <form id="form" action="/">
-            <h1>Sign up</h1>
-            
-            <div class="input-control">
-                <label for="email">Email</label>
-                <input id="email" type="text">
-                <div class="error"></div>
-            </div>
-            <div class="input-control">
-              <label for="username">Frist name</label>
-              <input id="fname"  type="text">
-              <div class="error"></div>
-            </div>
-            <div class="input-control">
-              <label for="username">Last name</label>
-              <input id="lname"  type="text">
-              <div class="error"></div>
-            </div>
-            <div class="input-control">
-              <label for="username">Address</label>
-              <input id="addr" type="text">
-              <div class="error"></div>
-          </div>
-            <div class="input-control">
-                <label for="password">Password</label>
-                <input id="password"  type="password">
-                <div class="error"></div>
-            </div>
-            <!-- <div class="input-control">
-                <label for="password2">Password again</label>
-                <input id="password2"name="password2" type="password">
-                <div class="error"></div>
-            </div> -->
-            <button id="submit" class="normal" type="button" >Sign Up</button>
-            <p id="regis"></p>
-            <p id="result"></p>
-        </form>
-        
-    </div>
-    </section>
+          <form id="form" action="/">
+              <h1>Sign up</h1>
+
+              <div class="input-control">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="text">
+                  <div class="error"></div>
+              </div>
+
+              <div class="input-control">
+                  <label for="fname">First name</label>
+                  <input id="fname" type="text">
+                  <div class="error"></div>
+              </div>
+
+              <div class="input-control">
+                  <label for="lname">Last name</label>
+                  <input id="lname" type="text">
+                  <div class="error"></div>
+              </div>
+              <div class="input-control">
+                  <label for="addr">Address</label>
+                  <input id="addr" type="text">
+                  <div class="error"></div>
+              </div>
+              <div class="input-control">
+                  <label for="password">Password</label>
+                  <input id="password" type="password">
+                  <div class="error"></div>
+              </div>
+              <div class="input-control">
+                  <label for="password2">Password again</label>
+                  <input id="password2" name="password2" type="password">
+                  <div class="error"></div>
+              </div>
+              <button id="submit" class="normal" type="button">Sign Up</button>
+              <p id="regis"></p>
+              <p id="result"></p>
+          </form>
+      </div>
+  </section>
     <section id="page-header" class="about-header">
       <h2>#Contact_Us</h2>
       <p>LEAVE A MESSAGE,We love to hear from you!</p>
@@ -146,6 +147,7 @@
       </div>
     </footer>
     <script src="../js/responsiveHome.js"></script>
-    
+    <script defer src="../js/sign_up.js"></script>
+    <!-- <script defer src="../js/sign_valid.js"></script> -->
   </body>
 </html>
