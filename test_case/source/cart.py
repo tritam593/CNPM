@@ -7,8 +7,9 @@ class Item:
          self.qty = qty
       
 class Cart: 
-    def __init__(self,user_id):
+    def __init__(self,user_id,cart_item_id):
         self.user_id = user_id
+        self.cart_item_id = cart_item_id
         self.user_cart = []
     def get_cart(self):
         r = requests.get(url=f"http://127.0.0.1:9000/carts/{self.user_id}")
@@ -26,7 +27,7 @@ class Cart:
         
     
     def delete_item(self,item):
-        r = requests.delete(url=f"http://127.0.0.1:9000/carts")
+        r = requests.delete(url=f"http://127.0.0.1:9000/carts/{self.cart_item_id}")
         if r.status_code == 200:
             return self.user_cart.pop(item)
         raise requests.HTTPError
