@@ -46,9 +46,9 @@ const baseImagePath = "../../";
 
 function displaycart(){
     const id = localStorage.getItem("ID");
-    const userid = localStorage.getItem("login");
+    
     $.ajax({
-        url: url + "carts/" +  '73a51206-ea3c-4b4b-8a1a-af883e2d421a',
+        url: url + "carts/" + id,
         type: 'GET',
         contentType: "application/json",
         
@@ -97,7 +97,7 @@ function displaycart(){
                     <i class="fa-regular fa-circle-xmark" data-id=${item.ID}></i>
                 </td>
                 <td>
-                    <div class='img-box'> <img class="img" id="image"  src="${baseImagePath}${ProductImages[0].Path} alt="${Name}" ></div>
+                    <div class='img-box'> <img class="img" id="image"  src="${baseImagePath}${ProductImages[0].Path}" alt="${Name}" ></div>
                 </td>
                 <td><p style='font-size:15px;' id="Name">${Name}</p></td>
                 <td><h2 id='price' style='font-size:15px; color:red;'>$ ${Price} </h2></td>

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"net/http"
 
@@ -34,6 +35,8 @@ func (server *Server) GetCategoryByID(w http.ResponseWriter, r *http.Request) {
 	if vars["id"] == "" {
 		return
 	}
+
+	fmt.Println(vars["id"])
 
 	categoryModel := models.Category{}
 	category, err := categoryModel.GetCategoryByID(server.DB, vars["id"])
@@ -69,6 +72,10 @@ func (server *Server) GetCategories(w http.ResponseWriter, r *http.Request) {
 	categoryModel := models.Category{}
 	category, err := categoryModel.GetCategories(server.DB)
 	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Error"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
 		return
 	}
 
@@ -87,7 +94,14 @@ func (server *Server) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	categoryModel := models.Category{}
 	utils.ParseBody(r, &categoryModel)
 	// fmt.Println(categoryModel)
-	category, _ := categoryModel.UpdateCategory(server.DB, vars["id"])
+	category, err := categoryModel.UpdateCategory(server.DB, vars["id"])
+	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Error"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
+		return
+	}
 
 	res, _ := json.Marshal(&category)
 	w.Header().Set("Content-Type", "application/json")

@@ -12,7 +12,7 @@ $(document).ready(function () {
 
         };
         const url = "http://127.0.0.1:9000/"
-        if (isFormValid()) {
+        if (true) {
             // Proceed with form submission or any other action
             console.log('Form is valid. Submitting...');
 

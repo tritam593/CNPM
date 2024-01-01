@@ -76,6 +76,8 @@ func (o *Order) FindByUserID(db *gorm.DB, UserID string) (*Order, error) {
 	err := db.Debug().
 		Preload("OrderItems").
 		Preload("OrderItems.Product").
+		Preload("OrderItems.Product.ProductImages").
+		Preload("OrderItems.Product.Category").
 		Preload("User", func(tx *gorm.DB) *gorm.DB {
 			return tx.Omit("Password")
 		}).
@@ -94,6 +96,34 @@ func (o *Order) UpdateOrder(db *gorm.DB, orderID string) (*Order, error) {
 		return nil, err
 	}
 	return o, nil
+}
+
+func (o *Order) DeleteOrder(db *gorm.DB, userID string) error{
+	var order []Order
+	err := db.Debug().Preload("OrderItems").
+	Preload("OrderCustomer").
+	Model(&Order{}).Where("user_ID = ?", userID).Find(&order).Error
+	
+	if err != nil {
+		return err
+	}
+
+	if len(order) == 0 {
+		return nil
+	}
+	for i :=0; i<len(order); i++{
+		db.Debug().Unscoped().Delete(&order[i].OrderItems)
+		db.Debug().Unscoped().Delete(&order[i].OrderCustomer)
+	}
+
+	
+
+	err = db.Debug().Unscoped().Delete(&order).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (o *Order) GetStatusLabel() string {

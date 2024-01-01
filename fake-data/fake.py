@@ -6,6 +6,14 @@ categories = "./categories/"
 images = "./images/"
 products = "./products/"
 link = "http://127.0.0.1:9000/"
+
+def create_user(account):
+    d = account.copy()
+    d["firstname"] = "aaa"
+    d["lastname"] = "nnnn"
+    r = requests.post('http://127.0.0.1:9000/register', json=d)
+    print(r.json())
+
 def create_category(path):
     dir_list = os.listdir(path)
     for i in dir_list:
@@ -21,6 +29,7 @@ def create_product(path):
         path_1 = path+i +"/"
         for j in os.listdir(path_1):
             path_2 = path_1+j
+            # print(path_2)
             f = open(path_2)
             data = json.load(f)
             print(data)
@@ -34,7 +43,7 @@ def add_item_to_cart(data):
     user_id = r.json()["ID"]
     r = requests.get(url = f'{link}carts/{user_id}')
 
-    products = requests.get(f"{link}products").json()[:4]
+    products = requests.get(f"{link}products").json()
     cart = r.json()
     n = random.randint(1, len(products))
 
@@ -89,13 +98,15 @@ def create_order(data):
     return
 
 def main():
-    # create_category(categories)
-    # create_product(products)
     data = {
                 "email" : "aaa@a.a",
                 "password" : "b"
             }
-    # add_item_to_cart(data)
+    create_user(data)
+    create_category(categories)
+    create_product(products)
+    
+    add_item_to_cart(data)
     create_order(data=data)
     return
 
