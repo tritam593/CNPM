@@ -104,7 +104,7 @@ function displaycart(){
                 <td id = 'Quantity-box'>
                     <div class='Quanty'>
                     <i class="fa-solid fa-minus" id= "minus-btn"  data-id=${item.ProductID}></i>
-                    <input type="number" id="Qty" class="Qty-box" value="${item.Qty}" data-index="${index}" style=" text-align: center;" >
+                    <input type="number" id="Qty" class="Qty-box" value="${item.Qty}" data-index="${index}" style=" text-align: center;" min="1" max="99" readonly>
                     <i class="fa-solid fa-plus" id = "plus-btn" data-id=${item.ProductID}></i>
                     </div>
                 </td>
@@ -115,11 +115,10 @@ function displaycart(){
         document.getElementById('root').innerHTML = cartHTML;
         (function () {
             $('.fa-circle-xmark').click(function (e) {
-                e.preventDefault(); // Prevent the default behavior of the link (if it's an anchor tag)
-        
+                e.preventDefault(); 
                 var $removeBtn = $(this);
                 if (confirm("Are you sure you want to remove this product?")) {
-                var id = $removeBtn.data('id'); // Use 'data-id' instead of 'data-ID'
+                var id = $removeBtn.data('id'); 
         
                 $.ajax({
                     type: 'DELETE',
@@ -151,7 +150,7 @@ function displaycart(){
                     url: url + "carts",
                     data: JSON.stringify(data),
                     success: function(data2){
-                        $('#Qty').val(data2.Qty);
+                     
                         displaycart();
                     },
                     error: function(xhr, status, error) {
@@ -176,7 +175,6 @@ function displaycart(){
                     url: url + "carts",
                     data: JSON.stringify(data),
                     success: function(data1){
-                        $('#Qty').val(data1.Qty);
                         displaycart();
                         console.log(JSON.stringify(data1));
                     },
