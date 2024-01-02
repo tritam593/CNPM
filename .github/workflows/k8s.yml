@@ -13,8 +13,9 @@ jobs:
     continue-on-error: false
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Use the build job from the build workflow
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Use local action
         uses: ./.github/workflows/docker-image.yml
 
   build-k8s:
