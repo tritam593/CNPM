@@ -19,6 +19,10 @@ func (server *Server) GetCart(w http.ResponseWriter, r *http.Request) {
 	cartModel := models.Cart{}
 	carts, err := cartModel.GetCart(server.DB, vars["id"])
 	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Error"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
 		return
 	}
 

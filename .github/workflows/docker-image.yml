@@ -1,8 +1,8 @@
-name: Docker Image CI
+name: Docker CI/CD for server
 
 on:
   push:
-    branches: ["main", "tam-backend-golang" ]
+    branches: ["main", "tam-k8s-docker-CI-CD" ]
   pull_request:
     branches: [ "main" ]
 
@@ -20,20 +20,39 @@ jobs:
         docker build -t mysql-db --target db .
       working-directory: ./backend
 
+    - name: Show images 
+      run: docker images
+    
     - name: Run backend docker to test
       run : |
-        docker run --name test-flask -d -p 5000:5000 backend-flask
+        docker-compose up -d
+      working-directory: ./backend
+    
+    - name: Show container
+      run: docker ps
 
-    - name: Build frontend docker
-      run: |
-        
-        cd frontend
-        docker build -t frontend-flask .
-        cd ..
+    - name: Stop docker compose
+      run : |
+        docker compose stop
+      working-directory: ./backend
 
-    - name: Run frontend docker
+  run-test:
+    needs: build-docker
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the backend Docker image
       run: |
-        docker run --name test-front -d -p 8000:80 frontend-flask
+        docker build -t backend-golang --target program .
+        docker build -t mysql-db --target db .
+      working-directory: ./backend
+
+    - name: Run backend docker to test
+      run : |
+        docker-compose up -d
+      working-directory: ./backend
+
     
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -45,13 +64,19 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: test api
+    - name: run fake data
+      run: |
+        python3 fake.py
+      working-directory: ./fake-data
+
+    - name: run test case
       run : |
-        python3 test_api.py 
+        python3 -m unittest tests.test_user
+      working-directory: ./test_case
 
 
-    - name: Stop container
+    - name: Stop docker compose
       run : |
-        docker stop test-flask
-        docker stop test-front
+        docker compose stop
+      working-directory: ./backend
   

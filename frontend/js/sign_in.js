@@ -12,7 +12,7 @@ $(document).ready(function () {
 
         };
         const url = "http://127.0.0.1:9000/"
-        if (isFormValid()) {
+        
             // Proceed with form submission or any other action
             console.log('Form is valid. Submitting...');
 
@@ -27,14 +27,13 @@ $(document).ready(function () {
                         alert("Login fail")
                     }
                     else{
-                        var fieldValue = response.ID; 
+                    var fieldValue = response.ID; 
                     console.log(fieldValue);
                     localStorage.setItem('ID', fieldValue);
 
                     var fieldValue = localStorage.getItem('ID');
                     console.log(fieldValue);
-                    $("#login").text("Result: " + JSON.stringify(response));
-                    $("#local").text("Val: " + fieldValue);
+                    
                     
                     getCarts();
                     console.log("GET CARTS OK");
@@ -47,9 +46,7 @@ $(document).ready(function () {
                     $("#login").text("Fail: " + error.message);
                 }
         });
-        } else {
-            console.log('Form is not valid. Please check your inputs.');
-        }
+        
     });
     
 });
@@ -83,49 +80,3 @@ function getCarts(){
 
 
 
-const setError = (element, message) => {
-    const inputControl = element.parentElement;
-    const errorDisplay = inputControl.querySelector('.error');
-
-    errorDisplay.innerText = message;
-    inputControl.classList.add('error');
-    inputControl.classList.remove('success')
-}
-
-const setSuccess = element => {
-    const inputControl = element.parentElement;
-    const errorDisplay = inputControl.querySelector('.error');
-
-    errorDisplay.innerText = '';
-    inputControl.classList.add('success');
-    inputControl.classList.remove('error');
-};
-
-const isValidEmail = email => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
-const isFormValid = () => {
-    const emailValue = email.value.trim();
-    const passwordValue = password.value.trim();
-
-
-    if (emailValue === '' || !isValidEmail(emailValue)) {
-        setError(email, 'Provide a valid email address');
-        return false;
-    } else {
-        setSuccess(email);
-    }
-
-    if (passwordValue === '' || passwordValue.length < 8) {
-        setError(password, 'Password must be at least 8 characters.');
-        return false;
-    } else {
-        setSuccess(password);
-    }
-
-
-
-    // If all validations pass, return true
-    return true;
-};

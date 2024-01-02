@@ -68,6 +68,10 @@ func (server *Server) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	productModel := models.Product{}
 	product, err := productModel.DeleteProduct(server.DB, vars["id"])
 	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Error"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
 		return
 	}
 

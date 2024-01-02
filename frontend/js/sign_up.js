@@ -34,19 +34,20 @@ $(document).ready(function () {
                 success: function (response) {
                     // Handle JSON data from the response
                     
-                    $("#regis").text("Result: " + JSON.stringify(response));
+                    
                     
                     if (response.Check === "ok") {
-                        $("#regis").text("Result: " + JSON.stringify(response));
+                        
                         window.location.href = "../sub-pages/sign-in.html";
                     } else {
-                        $("#regis").text("Fail: Check is not ok.");
+                        
+                        setError(email, 'Email already registered');
                     }
                 },
                 error: function (xhr, status, error) {
                     // Display an error message if there's an issue with the request
-                    
-                    $("#regis").text("Fail: " + error.message);
+                    console.log("Fail registered: " + error.message)
+        
                 }
             });
         } else {
