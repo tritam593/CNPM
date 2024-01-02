@@ -7,7 +7,7 @@
 - SV cùng mentor xây dựng đề bài và giải quyết vấn đề.
 # Đề bài: Xây dụng một trang web ecommerce 
 (**Lưu ý:** do project của chúng em sử dụng docker và k8s lên nếu chạy file index.html trong frontend sẽ bị lỗi một số chức năng do chúng em phải tinh chỉnh file js cho phù hợp với k8s)
-Trong bài làm của chúng em thì chúng em sẽ tạo một trang web đơn giản mà trong đó trang web có sẵn các sản phẩm và người dùng chỉ cần đăng kí tài khoản, sau đó thì thêm sản phẩm vào giỏ hàng rồi sau đó thanh toán đơn hàng ( chúng em làm gần giống với cả trang web bán hàng của nike ạ ![Link web của nike](https://www.nike.com/vn/)). **(Ở đây chúng em làm có thể thiếu một số chức năng do chúng em còn thiếu một vài kiến thức nhất định ạ)**
+Trong bài làm của chúng em thì chúng em sẽ tạo một trang web đơn giản mà trong đó trang web có sẵn các sản phẩm và người dùng chỉ cần đăng kí tài khoản, sau đó thì thêm sản phẩm vào giỏ hàng rồi sau đó thanh toán đơn hàng ( chúng em làm gần giống với cả trang web bán hàng của nike ạ (https://www.nike.com/vn/)). **(Ở đây chúng em làm có thể thiếu một số chức năng do chúng em còn thiếu một vài kiến thức nhất định ạ)**
 ![Alt text](image_demo.png)
 # Các yêu cầu để chạy được repo này
 - Cài đặt Docker và K8s
