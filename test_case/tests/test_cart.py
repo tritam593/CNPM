@@ -1,33 +1,41 @@
 import unittest
 import source.cart as cart
 import source.user as user
+import source.product as product
 
 
 class TestCart(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        print("=================Start set up class==================")
         cls.user = user.User("testuser@example.com", "a", "Test", "User", "as,ndsalkdsalk")
-        print(cls.user.data)
+        cls.product = product.Product()
+
+        print("Data product: ",cls.product.data)
+        print("Data user: ",cls.user.data)
         response = cls.user.register()
-        print(response)
-        
+        print("User response",response)
+        response2 = cls.product.post_new_product()
+        print("Product respone",response2)
         assert 1 == len(response)
         assert "Check" in (response.keys())
         assert "ok" == response["Check"]
-        print("set up class")
+        print("=================END set up class==================")
 
     # test delete account
     @classmethod
     def tearDownClass(cls):
-        print("===========tear down class===========")
+        print("===========Start tear down class===========")
         cls.user.login()
         print(cls.user.id)
         response = cls.user.delete_user(cls.user.id)
         print(response)
+        response2 = cls.product.delete_product()
+        print(response2)
         assert 1 == len(response)
         assert "Check" in (response.keys())
         assert "ok" == response["Check"]
-        print("===========tear down class===========")
+        print("===========END tear down class===========")
 
 
 
@@ -44,29 +52,36 @@ class TestCart(unittest.TestCase):
         self.cart.cart_item_id = all_cart["ID"]
         self.cart.data["CartID"] = self.cart.cart_item_id
 
-
+        self.cart.product_id = self.product.id
+        self.cart.data["productID"] = self.cart.product_id
+        print("ID USER",self.cart.user_id)
+        print("ID CARTS",self.cart.cart_item_id)
+        print("ID PRODUCT",self.cart.product_id)
         print("======END set up ======")
     
 
     def test_get_cart(self):
+        print("===============START test_get_cart============")
         cart_temp = self.cart.get_cart() 
         print(cart_temp)
         self.assertTrue(len(cart_temp) > 1)
+        print("===============END test_get_cart==============")
         
         
     def test_add_item(self):
-        print("====================test_add_cart==================")
+        print("====================STAR test_add_cart==================")
         #add
         self.cart.add_item()
         all_cart = self.cart.get_cart()
         #check
-        check_add_cart = any(item["ProductID"] == "d50daef9-7447-472b-8afe-8fe48a7b4793" for item in all_cart["CartItems"])
+        check_add_cart = any(item["ProductID"] == self.cart.product_id for item in all_cart["CartItems"])
 
         #delete
         id_cart_item = [item["ID"] for item in all_cart["CartItems"]][0]
         self.cart.delete_item(id_cart_item)
         
         self.assertTrue(check_add_cart)
+        print("====================END test_add_cart==================")
 
 
     def test_delete_item(self): 
