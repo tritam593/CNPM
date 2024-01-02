@@ -5,6 +5,12 @@ on:
     branches: ["main", "tam-k8s-docker-CI-CD" ]
   pull_request:
     branches: [ "main" ]
+  workflow_call:
+    inputs:
+      config-path:
+        required: true
+        type: string
+
 
 jobs:
 
