@@ -35,6 +35,7 @@ func (server *Server) initializeRoutes() {
 	server.Router.HandleFunc("/carts/{id}", server.DeleteItem).Methods("DELETE")
 
 	server.Router.HandleFunc("/orders", server.CreateOrder).Methods("POST")
-	server.Router.HandleFunc("/orders/{id}", server.GetOrderByUserID).Methods("GET")
+	server.Router.HandleFunc("/orders/{id}", server.GetOrderByUserID).Methods("GET") // user id
+	server.Router.HandleFunc("/orders/order/{id}", server.GetOrderByOrderID).Methods("GET") // user id
 	server.Router.HandleFunc("/orders/{id}", server.UpdateOrder).Methods("PUT")
 }
