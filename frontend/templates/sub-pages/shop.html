@@ -16,6 +16,12 @@
 </head>
 
 <body>
+
+    {% if data_value %}
+    <p id = "backend-host" style="display: none;">{{data_value}}</p>
+    {% endif %}
+
+
     <section id="header">
         <a href="../index.html"><img src="{{ url_for('static', filename='assets/logo.png') }}" alt="logo" class="logo">
         </a>

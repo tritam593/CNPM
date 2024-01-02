@@ -1,4 +1,5 @@
-const url = "http://127.0.0.1:9000/"
+const url = "http://" + document.getElementById("myInput").value + ":9000/";
+console.log(url)
 var email = document.getElementById("email");
 var password = document.getElementById("password");
 $(document).ready(function () {
@@ -11,7 +12,7 @@ $(document).ready(function () {
             password: password.value
 
         };
-        const url = "http://127.0.0.1:9000/"
+        // const url = "http://" + document.getElementById("backend-host").textContent + ":9000/";
         
             // Proceed with form submission or any other action
             console.log('Form is valid. Submitting...');

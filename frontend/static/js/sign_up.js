@@ -21,12 +21,12 @@ $(document).ready(function () {
             address: add.value
         };
         // e.preventDefault();
-        const url = "http://127.0.0.1:9000/"
+        const url = "http://" + document.getElementById("backend-host").textContent + ":9000/";
         if (isFormValid()) {
             // Proceed with form submission or any other action
             console.log('Form is valid. Submitting...');
             $.ajax({
-                url: "http://127.0.0.1:9000/register",
+                url: url + "register",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),

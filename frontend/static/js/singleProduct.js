@@ -1,4 +1,4 @@
-const url = "http://127.0.0.1:9000/";
+const url = "http://" + document.getElementById("backend-host").textContent + ":9000/";
 var pro_name;
 $(document).ready(function () {
     // var productsContainer = $("#productsContainer");
