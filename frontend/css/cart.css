@@ -61,7 +61,28 @@
 #cart table td {
     font-size: 13px;
 }
+.Quantity-box{
+    display: flex;
+    align-items: center;
+}
+.img-box{
+    margin:auto;
+    width: 50px; 
+    height: 50px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+.img{
+    display: block;
+      margin: auto;
+    max-width: 50px;
+    max-height: 50px;
+}
 
+.fa-circle-xmark:hover{
+    color: #333;
+}
 #cart-add {
     display: flex;
     flex-wrap: wrap;

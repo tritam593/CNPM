@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cart</title>
     <link rel="shortcut icon" href="../assets/icon.png" type="image/.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -27,10 +28,8 @@
           <li><a href="../index.html">Home</a></li>
           <li><a href="../sub-pages/shop.html">Shop</a></li>
           <li><a href="../sub-pages/blog.html">Blog</a></li>
-          <!-- <li id="sign-in"><a href="./sub-pages/sign-in.html">Sign in</a></li>
-          <li id="sign-up"><a href="./sub-pages/sign-up.html">Sign up</a></li>
-          <li id="lg-user"><a href=""><i class="far fa-user"></i></a></li>
-          <li id="logout"><a href="">Logout</a></li> -->
+        <!--<li><a href="../sub-pages/sign-in.html">Sign in</a></li>
+          <li><a href="../sub-pages/sign-up.html">Sign up</a></li> -->  
           <li class="lg-bag">
             <a class="active" href="../sub-pages/cart.html"
               ><i class="fa-solid fa-bag-shopping"></i
@@ -53,6 +52,7 @@
     <section id="cart" class="section-p1">
       <table width="100%">
         <thead>
+          <p id = "CountA"> </p>
           <tr>
             <td>REMOVE</td>
             <td>IMAGES</td>
@@ -62,37 +62,8 @@
             <td>SUBTOTAL</td>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>
-              <a href="#"><i class="fa-regular fa-circle-xmark"></i></a>
-            </td>
-            <td><img src="../assets/products/f1.jpg" alt="P-1" /></td>
-            <td>Cartoon Astronaut T-shirts</td>
-            <td>$118.19</td>
-            <td><input type="number" value="1" /></td>
-            <td>$118.19</td>
-          </tr>
-          <tr>
-            <td>
-              <a href="#"><i class="fa-regular fa-circle-xmark"></i></a>
-            </td>
-            <td><img src="../assets/products/f2.jpg" alt="P-1" /></td>
-            <td>Cartoon Astronaut T-shirts</td>
-            <td>$118.19</td>
-            <td><input type="number" value="1" /></td>
-            <td>$118.19</td>
-          </tr>
-          <tr>
-            <td>
-              <a href="#"><i class="fa-regular fa-circle-xmark"></i></a>
-            </td>
-            <td><img src="../assets/products/f3.jpg" alt="P-1" /></td>
-            <td>Cartoon Astronaut T-shirts</td>
-            <td>$118.19</td>
-            <td><input type="number" value="1" /></td>
-            <td>$118.19</td>
-          </tr>
+        <tbody id = 'root' cellspacing='0'>
+          
         </tbody>
       </table>
     </section>
@@ -106,18 +77,19 @@
       </div>
       <div id="sub-total">
         <h3>Cart Totals</h3>
+        <p id='CountB' > </p>
         <table>
           <tr>
-            <td>Cart Subtotal</td>
-            <td>$ 335</td>
+            <td >Cart Subtotal</td>
+             <td id = "Subtotal" > </td>
           </tr>
           <tr>
             <td>Shipping</td>
-            <td>Free</td>
+            <td id = "Ship"></td>
           </tr>
           <tr>
-            <td><strong>Total</strong></td>
-            <td><strong>$ 335</strong></td>
+            <td ><strong>Total</strong></td>
+           <td id = "TotalPrice"><strong> </strong></td> 
           </tr>
         </table>
         <button class="normal">Proceed to checkout</button>
@@ -173,6 +145,7 @@
       </div>
     </footer>
     <script src="../js/responsiveHome.js"></script>
+    <script src="../js/cart.js"></script>
     <script src="../js/nav.js"></script>
   </body>
 </html>
