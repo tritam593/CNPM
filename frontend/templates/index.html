@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cara - Your Ecommerce App</title>
-    
-    <link rel="shortcut icon" href="./assets/icon.png" type="image/.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/responsiveHome.css">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icon.png') }}" type="image/.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsiveHome.css') }}">
 </head>
+
 <body>
     <section id="header">
-        <a href="./index.html"><img src="./assets/logo.png" alt="logo" class="logo"></a>
+        <a href="./index.html"><img src="{{ url_for('static', filename='assets/logo.png') }}" alt="logo" class="logo">
+        </a>
         <div>
             <ul id="navbar">
                 <li><a class="active" href="/index.html">Home</a></li>
@@ -25,12 +28,12 @@
                 <li class="lg-bag"><a href="./sub-pages/cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
                 <a href="#" id="close"><i class="fa-solid fa-xmark"></i></a>
             </ul>
-            
+
         </div>
         <div id="mobile">
-            
+
             <a href="./sub-pages/cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
-            <i  id="bar" class="fa-solid fa-bars"></i>
+            <i id="bar" class="fa-solid fa-bars"></i>
         </div>
     </section>
     <section id="hero">
@@ -42,30 +45,30 @@
     </section>
     <section id="feature" class="section-p1">
         <div class="fe-box">
-            <img src="./assets/features/f1.png" alt="F-1">
+            <img src="{{ url_for('static', filename='assets/features/f1.png') }}" alt="F-1">
             <h6>Free Shipping</h6>
         </div>
         <div class="fe-box">
-            <img src="./assets/features/f2.png" alt="F-1">
+            <img src="{{ url_for('static', filename='assets/features/f2.png') }}" alt="F-2">
             <h6>Online Order</h6>
         </div>
         <div class="fe-box">
-            <img src="./assets/features/f3.png" alt="F-1">
+            <img src="{{ url_for('static', filename='assets/features/f3.png') }}" alt="F-3">
             <h6>Save Money</h6>
         </div>
         <div class="fe-box">
-            <img src="./assets/features/f4.png" alt="F-1">
+            <img src="{{ url_for('static', filename='assets/features/f4.png') }}" alt="F-4">
             <h6>Promotion</h6>
         </div>
         <div class="fe-box">
-            <img src="./assets/features/f5.png" alt="F-1">
+            <img src="{{ url_for('static', filename='assets/features/f5.png') }}" alt="F-5">
             <h6>Happy Sell</h6>
         </div>
         <div class="fe-box">
-            <img src="./assets/features/f6.png" alt="F-1">
+            <img src="{{ url_for('static', filename='assets/features/f6.png') }}" alt="F-6">
             <h6>24/7 Support</h6>
         </div>
-    </section> 
+    </section>
 
     <section id="banner" class="section-m1">
         <h4>Repair Services</h4>
@@ -113,7 +116,7 @@
     </section>
     <footer class="section-p1">
         <div class="col">
-            <img src="./assets/logo.png" alt="logo" class="logoS">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="logo" class="logoS">
             <h4>Contact</h4>
             <p><strong>Address:</strong>562 Wellington Road, Street 32,san Freancisco</p>
             <p><strong>Phone:</strong>+01 2222 3665 / (+91) 01 2345 6763</p>
@@ -148,17 +151,18 @@
             <h4>Install App</h4>
             <p>From App Store or Google Play</p>
             <div class="row">
-                <img src="./assets/pay/app.jpg" alt="app">
-                <img src="./assets/pay/play.jpg" alt="play">
+                <img src="{{ url_for('static', filename='assets/pay/app.jpg') }}" alt="app">
+                <img src="{{ url_for('static', filename='assets/pay/play.jpg') }}" alt="play">
             </div>
             <p>Secured Payment Gateways</p>
-            <img src="./assets/pay/pay.png" alt="pay">
+            <img src="{{ url_for('static', filename='assets/pay/pay.png') }}" alt="pay">
         </div>
         <div class="copyright">
             <p>2023 , Tejas Nasre - HTML CSS JS Ecommerce Template</p>
         </div>
     </footer>
-   <script src="./js/responsiveHome.js"></script>
-   <script src="./js/nav.js"></script>
+    <script src="{{ url_for('static', filename='js/responsiveHome.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
 </body>
+
 </html>

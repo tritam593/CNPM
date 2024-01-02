@@ -4,22 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../assets/icon.png" type="image/.png">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icon.png') }}" type="image/png">
     <title>Your product</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/responsiveHome.css">
-    <link rel="stylesheet" href="../css/shop.css">
-    <link rel="stylesheet" href="../css/sproduct.css">
-    <script src="../js/responsiveHome.js"></script>
-    <script src="../js/nav.js"></script>
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsiveHome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shop.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sproduct.css') }}">
+    <script src="{{ url_for('static', filename='js/responsiveHome.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+
 </head>
 
 <body>
     <section id="header">
-        <a href="../index.html"><img src="../assets/logo.png" alt="logo" class="logo"></a>
+        <a href="../index.html"><img src="{{ url_for('static', filename='assets/logo.png') }}" alt="logo" class="logo">
+        </a>
         <div>
             <ul id="navbar">
                 <li><a href="../index.html">Home</a></li>
@@ -42,7 +43,7 @@
 
 
 
-    
+
     <section id="prodetails" class="section-p1">
         <div class="single-pro-img">
             <!-- <img src="../assets/products/f1.jpg" alt="P-1" width="100%" id="mainImg">
@@ -77,7 +78,7 @@
         </div>
     </section>
 
-    
+
 
 
     <section id="newsletter" class="section-p1 section-m1">
@@ -92,7 +93,7 @@
     </section>
     <footer class="section-p1">
         <div class="col">
-            <img src="../assets/logo.png" alt="logo" class="logoS">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="logo" class="logoS">
             <h4>Contact</h4>
             <p><strong>Address:</strong>562 Wellington Road, Street 32,san Freancisco</p>
             <p><strong>Phone:</strong>+01 2222 3665 / (+91) 01 2345 6763</p>
@@ -127,18 +128,18 @@
             <h4>Install App</h4>
             <p>From App Store or Google Play</p>
             <div class="row">
-                <img src="../assets/pay/app.jpg" alt="app">
-                <img src="../assets/pay/play.jpg" alt="play">
+                <img src="{{ url_for('static', filename='assets/pay/app.jpg') }}" alt="app">
+                <img src="{{ url_for('static', filename='assets/pay/play.jpg') }}" alt="play">
             </div>
             <p>Secured Payment Gateways</p>
-            <img src="../assets/pay/pay.png" alt="pay">
+            <img src="{{ url_for('static', filename='assets/pay/pay.png') }}" alt="pay">
         </div>
         <div class="copyright">
-            <p>2023 , Tejas Nasre - HTML CSS JS Ecommerce Template</p>
+            <p>2023, Tejas Nasre - HTML CSS JS Ecommerce Template</p>
         </div>
     </footer>
-    
-    
-    <!-- <script defer src="../js/slider.js" ></script> -->
-    <script defer src="../js/singleProduct.js" ></script>
+
+    <!-- <script defer src="{{ url_for('static', filename='js/slider.js') }}"></script> -->
+    <script defer src="{{ url_for('static', filename='js/singleProduct.js') }}"></script>
+
 </html>
