@@ -1,10 +1,13 @@
 $(document).ready(function () {
     // var productsContainer = $("#productsContainer");
-    const url = "http://" + document.getElementById("backend-host").textContent + ":9000/";
+    var url = "http://127.0.0.1:9000/";
+    if (document.getElementById("backend-host").textContent == "backend-service"){
+        url = "http://localhost:80/";
+    }
     const container = $(".pro-container");
     // Gửi yêu cầu GET đến "http://127.0.0.1:9000/products" sử dụng jQuery AJAX
     $.get(url + "products", function(data, status){
-        alert("Data: " + data + "\nStatus: " + status);
+        alert("Data: " + JSON.stringify(data) + "\nStatus: " + status);
       });
 
     $.ajax({

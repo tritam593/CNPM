@@ -42,6 +42,7 @@ def create_product(path):
 def add_item_to_cart(data):
     # dang nhap lay ra user id vaf tu do lay ra cart_id roi them cart item vaof
     r = requests.post(url = f'{link}login', json=data)
+    print(r.json())
     user_id = r.json()["ID"]
     r = requests.get(url = f'{link}carts/{user_id}')
 

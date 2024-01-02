@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_from_directory
 import os
+import requests
 
 BACKEND_HOST = "127.0.0.1" if os.environ.get("BACKEND_HOST") != "backend-service" else "backend-service"
 print(BACKEND_HOST)
