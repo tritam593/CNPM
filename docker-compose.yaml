@@ -1,21 +1,11 @@
 services:
 
-  frontend-service:
-    image: "frontend:latest"
-    ports:
-      - 5000:5000
-
-    networks:
-      - frontend-backend-network
-      
-    depends_on:
-      backend-service:
-        condition : service_healthy
+  
 
   backend-service:
     image: "backend-golang:latest"
     ports:
-      - 9000
+      - 9000:9000
 
     networks:
       - frontend-backend-network

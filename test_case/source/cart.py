@@ -8,7 +8,7 @@ class Cart:
         
         self.data = {
             "CartID": self.cart_item_id,
-            "productID": self.product_id,# san pham co san trong fake-data
+            "productID": self.product_id,
             "Qty" : 19
         }
         

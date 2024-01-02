@@ -54,6 +54,7 @@ class TestCart(unittest.TestCase):
 
         self.cart.product_id = self.product.id
         self.cart.data["productID"] = self.cart.product_id
+        
         print("ID USER",self.cart.user_id)
         print("ID CARTS",self.cart.cart_item_id)
         print("ID PRODUCT",self.cart.product_id)
