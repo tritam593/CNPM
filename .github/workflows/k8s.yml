@@ -127,6 +127,10 @@ jobs:
           run: |
             python -m pip install --upgrade pip
             if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
+        - name: check pod
+          run: |
+            sudo microk8s kubectl get pods
         - name: get log of a pod
           run: |
             sudo microk8s kubectl logs --selector=tier=frontend -c nginx
@@ -138,8 +142,6 @@ jobs:
 
         - name: Stop k8s
           run: |
-            sudo microk8s kubectl delete -f backend/backend-deployment.yaml 
-            sudo microk8s kubectl delete -f backend/backend-service.yaml 
-            sudo microk8s kubectl delete -f frontend/frontend-deployment.yaml 
-            sudo microk8s kubectl delete -f frontend/frontend-service.yaml 
+            sudo microk8s kubectl delete service --all
+            sudo microk8s kubectl delete deployment --all
       
