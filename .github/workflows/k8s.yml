@@ -140,6 +140,15 @@ jobs:
           run : |
             python3 test_k8s.py
 
+        - name: get log of a pod
+          run: |
+            sudo microk8s kubectl logs --selector=tier=frontend -c nginx
+            sudo microk8s kubectl logs --selector=tier=backend -c back-go
+            sudo microk8s kubectl logs --selector=app=database-mysql -c database-mysql
+        - name: check pod
+          run: |
+            sudo microk8s kubectl get pods
+
         - name: Stop k8s
           run: |
             sudo microk8s kubectl delete service --all
