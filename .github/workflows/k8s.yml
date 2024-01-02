@@ -50,6 +50,8 @@ jobs:
         python3 -m unittest tests.test_user
         python3 -m unittest tests.test_category
         python3 -m unittest tests.test_product
+        python3 -m unittest tests.test_cart
+
       working-directory: ./test_case
 
 
