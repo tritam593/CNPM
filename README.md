@@ -1,4 +1,4 @@
-# test-gitaction
+# SE2023 - 15.1: Back-End mastering với các công nghệ CI/CD/Cloud hiện đại
 <!-- docker run -d --name "mysql-container" -p 3000:3306 database-mysql -->
 ![Docker build status](https://github.com/tritam593/se15.1/actions/workflows/docker-image.yml/badge.svg)
 ![K8s build status](https://github.com/tritam593/se15.1/actions/workflows/k8s.yml/badge.svg)
@@ -43,6 +43,8 @@ server.Router.HandleFunc("/login", server.DoLogin).Methods("POST")
 ```
 
 ```
+
+kubectl delete service --all
 cd se15.1
 cd frontend
 docker build -t frontend-flask .
@@ -69,8 +71,10 @@ http://localhost:32410/
 
 Delete
 ```
-kubectl delete -f backend/backend-deployment.yaml 
-kubectl delete -f backend/backend-service.yaml 
-kubectl delete -f frontend/frontend-deployment.yaml 
-kubectl delete -f frontend/frontend-service.yaml 
+kubectl apply -f backend/backend-deployment.yaml 
+kubectl apply -f backend/backend-service.yaml 
+kubectl apply -f backend/database-deployment.yaml 
+kubectl apply -f backend/database-service.yaml 
+kubectl apply -f frontend/frontend-deployment.yaml 
+kubectl apply -f frontend/frontend-service.yaml 
 ```
