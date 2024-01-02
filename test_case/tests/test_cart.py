@@ -29,9 +29,9 @@ class TestCart(unittest.TestCase):
         cls.user.login()
         print(cls.user.id)
         response = cls.user.delete_user(cls.user.id)
-        print(response)
+        print("DELETE USER ",response)
         response2 = cls.product.delete_product()
-        print(response2)
+        print("DELETE PRODUCT ",response2)
         assert 1 == len(response)
         assert "Check" in (response.keys())
         assert "ok" == response["Check"]
