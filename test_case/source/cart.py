@@ -1,13 +1,14 @@
 import requests
-import source.user as user
       
 class Cart: 
     def __init__(self,user_id):
         self.user_id = user_id
         self.cart_item_id = ""
+        self.product_id = ""
+        
         self.data = {
             "CartID": self.cart_item_id,
-            "productID": "d50daef9-7447-472b-8afe-8fe48a7b4793",# san pham co san trong fake-data
+            "productID": self.product_id,# san pham co san trong fake-data
             "Qty" : 19
         }
         
