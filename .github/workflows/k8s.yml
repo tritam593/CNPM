@@ -13,6 +13,7 @@ jobs:
     continue-on-error: false
 
     steps:
+      - uses: actions/checkout@v3
       - name: Use the build job from the build workflow
         uses: ./.github/workflows/docker-image.yml
 
