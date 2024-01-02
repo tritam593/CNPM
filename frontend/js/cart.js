@@ -139,6 +139,11 @@ function displaycart(){
                 e.preventDefault();
                 var $minusBtn = $(this);
                 var id = $minusBtn.data('id');
+                // var quantity = parseInt($(".Qty").val());
+                // if (quantity === 1) {
+                //     // Nếu Qty là 1, ẩn hiển thị fa-minus
+                //     $minusBtn.hide();
+                // }
                 var data = {
                     "cartid": localStorage.getItem("CartID"),
                     "productID": id,
@@ -150,7 +155,7 @@ function displaycart(){
                     url: url + "carts",
                     data: JSON.stringify(data),
                     success: function(data2){
-                     
+                       
                         displaycart();
                     },
                     error: function(xhr, status, error) {
