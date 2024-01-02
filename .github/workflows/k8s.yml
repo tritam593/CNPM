@@ -15,6 +15,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - run: pwd
       - name: Use local action
         uses: ./.github/workflows/docker-image.yml
 
