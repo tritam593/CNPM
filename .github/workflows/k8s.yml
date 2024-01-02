@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Use local action
-        uses: ./.github/workflows/docker-image.yml
+        uses: tritam593/se15.1/.github/workflows/docker-image.yml@tam-k8s-docker-CI-CD
 
   build-k8s:
     needs: build-docker
