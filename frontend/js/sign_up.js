@@ -21,21 +21,19 @@ $(document).ready(function () {
             address: add.value
         };
         // e.preventDefault();
-        const url = "http://127.0.0.1:9000/"
+        const url = "/"
         if (isFormValid()) {
             // Proceed with form submission or any other action
             console.log('Form is valid. Submitting...');
             $.ajax({
-                url: "http://127.0.0.1:9000/register",
+                url: "/register",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 crossDomain: true,
                 success: function (response) {
                     // Handle JSON data from the response
-                    
-                    
-                    
+
                     if (response.Check === "ok") {
                         
                         window.location.href = "../sub-pages/sign-in.html";

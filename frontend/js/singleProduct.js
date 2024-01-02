@@ -1,4 +1,4 @@
-const url = "http://127.0.0.1:9000/";
+const url = "/";
 var pro_name;
 $(document).ready(function () {
     // var productsContainer = $("#productsContainer");
@@ -8,7 +8,7 @@ $(document).ready(function () {
     const baseImagePath = "../../";
     const pro_id = localStorage.getItem("pro-id");
     console.log("ID pro: ",pro_id);
-    // Gửi yêu cầu GET đến "http://127.0.0.1:9000/products" sử dụng jQuery AJAX
+    // Gửi yêu cầu GET đến "/products" sử dụng jQuery AJAX
     $.ajax({
         url: url + "products/"+pro_id,
         type: "GET",

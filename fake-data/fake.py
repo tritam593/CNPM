@@ -5,13 +5,15 @@ import random
 categories = "./categories/"
 images = "./images/"
 products = "./products/"
-link = "http://127.0.0.1:9000/"
+BACKEND_HOST = "127.0.0.1" if os.environ.get("BACKEND_HOST") != "backend-service" else "backend-service"
+print(BACKEND_HOST)
 
+link = "http://" + BACKEND_HOST + ":9000/"
 def create_user(account):
     d = account.copy()
     d["firstname"] = "aaa"
     d["lastname"] = "nnnn"
-    r = requests.post('http://127.0.0.1:9000/register', json=d)
+    r = requests.post( link + 'register', json=d)
     print(r.json())
 
 def create_category(path):
@@ -19,7 +21,7 @@ def create_category(path):
     for i in dir_list:
         f = open(path+i)
         data = json.load(f)
-        r = requests.post('http://127.0.0.1:9000/categories', json=data)
+        r = requests.post( link + 'categories', json=data)
         print(r.json())
         f.close
 

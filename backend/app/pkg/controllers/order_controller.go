@@ -30,13 +30,13 @@ func (server *Server) CreateOrder(w http.ResponseWriter, r *http.Request) {
 	w.Write(res)
 }
 
-func (server *Server) GetOrderByUserID(w http.ResponseWriter, r *http.Request) {
+func (server *Server) GetOrderByOrderID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	if vars["id"] == "" {
 		return
 	}
 	orderModel := models.Order{}
-	_, err := orderModel.FindByUserID(server.DB, vars["id"])
+	_, err := orderModel.GetByOrderID(server.DB, vars["id"])
 
 	if err != nil {
 		res, _ := json.Marshal(&status{Check: "Error"})
@@ -46,6 +46,27 @@ func (server *Server) GetOrderByUserID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	res, _ := json.Marshal(&orderModel)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+func (server *Server) GetOrderByUserID(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	if vars["id"] == "" {
+		return
+	}
+	orderModel := models.Order{}
+	order, err := orderModel.FindByUserID(server.DB, vars["id"])
+
+	if err != nil {
+		res, _ := json.Marshal(&status{Check: "Error"})
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
+		return
+	}
+	res, _ := json.Marshal(&order)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)

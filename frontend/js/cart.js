@@ -6,7 +6,7 @@
 ];
 
 const category = [...new Set(product.map((item) => ({...item})))]; */
-const url = "http://127.0.0.1:9000/";
+const url = "/";
 // const pro_id = localStorage.getItem("pro-id");
 // const category = [];
 // category.push(...pro_id);

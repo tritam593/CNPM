@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
 
+
+
 jobs:
 
   build-docker:
@@ -19,14 +21,18 @@ jobs:
         docker build -t backend-golang --target program .
         docker build -t mysql-db --target db .
       working-directory: ./backend
+    
+    - name: Build the frontend Docker image
+      run: |
+        docker build -t frontend .
+      working-directory: ./frontend
 
     - name: Show images 
       run: docker images
     
-    - name: Run backend docker to test
+    - name: Run docker compose to test
       run : |
         docker-compose up -d
-      working-directory: ./backend
     
     - name: Show container
       run: docker ps
@@ -34,7 +40,6 @@ jobs:
     - name: Stop docker compose
       run : |
         docker compose stop
-      working-directory: ./backend
 
   run-test:
     needs: build-docker
@@ -47,11 +52,16 @@ jobs:
         docker build -t backend-golang --target program .
         docker build -t mysql-db --target db .
       working-directory: ./backend
+    
+    - name: Build the frontend Docker image
+      run: |
+        docker build -t frontend .
+      working-directory: ./frontend
 
-    - name: Run backend docker to test
+    - name: Run docker compose to test
       run : |
         docker-compose up -d
-      working-directory: ./backend
+
 
     
     - name: Set up Python 3.10
@@ -72,11 +82,13 @@ jobs:
     - name: run test case
       run : |
         python3 -m unittest tests.test_user
+        python3 -m unittest tests.test_category
+        python3 -m unittest tests.test_product
+        python3 -m unittest tests.test_cart
       working-directory: ./test_case
 
 
     - name: Stop docker compose
       run : |
         docker compose stop
-      working-directory: ./backend
   

@@ -1,8 +1,8 @@
 $(document).ready(function () {
     // var productsContainer = $("#productsContainer");
-    const url = "http://127.0.0.1:9000/";
+    const url = "/";
     const container = $(".pro-container");
-    // Gửi yêu cầu GET đến "http://127.0.0.1:9000/products" sử dụng jQuery AJAX
+    // Gửi yêu cầu GET đến "/products" sử dụng jQuery AJAX
     $.ajax({
         url: url + "products",
         type: "GET",
@@ -56,7 +56,7 @@ function redirectToSingleProductPage(productId) {
 // const container = document.querySelector(".pro-container");
 
 
-// fetch("http://127.0.0.1:9000/products")
+// fetch("/products")
 //     .then((response) => {
 //         console.log(response);
 //         return response.json();

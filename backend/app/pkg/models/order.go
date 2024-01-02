@@ -71,7 +71,26 @@ func (o *Order) CreateOrder(db *gorm.DB) (*Order, error) {
 	return o, nil
 }
 
-func (o *Order) FindByUserID(db *gorm.DB, UserID string) (*Order, error) {
+func (o *Order) GetByOrderID(db *gorm.DB, UserID string) (*Order, error) {
+
+	err := db.Debug().
+		Preload("OrderItems").
+		Preload("OrderItems.Product").
+		Preload("OrderItems.Product.ProductImages").
+		Preload("OrderItems.Product.Category").
+		Preload("User", func(tx *gorm.DB) *gorm.DB {
+			return tx.Omit("Password")
+		}).
+		Model(&Order{}).Where("ID = ?", UserID).
+		First(&o).Error
+	if err != nil {
+		return nil, err
+	}
+	return o, nil
+}
+
+func (o *Order) FindByUserID(db *gorm.DB, UserID string) ([]Order, error) {
+	var order []Order
 
 	err := db.Debug().
 		Preload("OrderItems").
@@ -82,11 +101,11 @@ func (o *Order) FindByUserID(db *gorm.DB, UserID string) (*Order, error) {
 			return tx.Omit("Password")
 		}).
 		Model(&Order{}).Where("User_ID = ?", UserID).
-		First(&o).Error
+		Find(&order).Error
 	if err != nil {
 		return nil, err
 	}
-	return o, nil
+	return order, nil
 }
 
 func (o *Order) UpdateOrder(db *gorm.DB, orderID string) (*Order, error) {
