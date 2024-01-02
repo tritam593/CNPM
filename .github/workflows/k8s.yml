@@ -18,6 +18,8 @@ jobs:
       - run: ls -a ./.github/workflows
       - name: Use local action
         uses: ./.github/workflows/docker-image.yml
+        with:
+          config-path: .github/workflows/docker-image.yml
 
   build-k8s:
     needs: build-docker
