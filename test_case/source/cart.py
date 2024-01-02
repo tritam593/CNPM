@@ -21,12 +21,10 @@ class Cart:
         raise requests.HTTPError
     def add_item(self):
         r = requests.post(url=f"http://127.0.0.1:9000/carts",json=self.data)
-        all_cart = self.get_cart()
-        self.id = next((item["ID"] for item in all_cart if item["productID"]== "df64bd0d-809a-4321-93b9-8551552d17b4"), None)
         if r.status_code == 200:
-           return r.json()
-        raise requests.HTTPError
-        
+           self.user_cart = r.json()
+           return self.user_cart
+        raise requests.HTTPError      
     
     def delete_item(self):
         r = requests.delete(url=f"http://127.0.0.1:9000/carts/{self.cart_item_id}")
