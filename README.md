@@ -13,6 +13,7 @@ Trong bài làm của chúng em thì chúng em sẽ tạo một trang web đơn 
 - Cài đặt python3 
 - Cài đặt các thư cần thiết của python được ghi trong file requirements.txt
 
+
 # Các bước để chạy được repo này
 - Clone repo về máy: ```git clone https://github.com/tritam593/se15.1.git```
 - Change directory to repo folder: ```cd se15.1```
